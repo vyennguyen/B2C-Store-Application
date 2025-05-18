@@ -1,18 +1,18 @@
 "use client";
 
 import MiddleMenu from "./MiddleMenu";
+import RightMenu from "./RightMenu";
+import Link from "next/link";
 
-function NavBar() {
+export default function NavBar() {
   return (
-    <div className="flex justify-center items-center w-auto">
-      <div className="flex" aria-label="Logo">
-        Logo
-      </div>
-      <div>
-        <MiddleMenu />
-      </div>
+    <div
+      aria-label="Navigation Bar"
+      className="flex justify-between items-center w-full py-5 px-10 text-lg"
+    >
+      <div aria-label="Logo">Logo</div>
+      <MiddleMenu />
+      <RightMenu />
     </div>
   );
 }
-
-export default NavBar;
