@@ -4,7 +4,7 @@
 :root {
   --background: #1d2532;
   --foreground: #e4e4e4;
-  --text-light: #e4e4e4;
+  --text-light: var(--foreground);
   --text-dark: var(--background);
 }
 
