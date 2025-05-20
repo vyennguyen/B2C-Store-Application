@@ -20,7 +20,7 @@ function SearchBar() {
   return (
     <form
       onSubmit={handleSearch}
-      className="flex items-center rounded px-2 py-1"
+      className="flex items-center rounded px-1 py-1"
     >
       <input
         type="text"
