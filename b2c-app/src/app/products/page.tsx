@@ -1,8 +1,20 @@
+import NavBar from "../components/NavBar";
+import LeftMenu from "../components/LeftMenu";
+import ProductPage from "../products/ProductPage";
+
 export default function ProductsPage() {
   return (
-    <div>
-      <h1>Products</h1>
-      <p>List of products will be displayed here.</p>
-    </div>
+    <>
+      <NavBar />
+      {/* Main content for the product page */}
+      <div className="flex min-h-screen">
+        <div className="w-[25%]">
+          <LeftMenu />
+        </div>
+        <div className="w-[75%] overflow-auto">
+          <ProductPage />
+        </div>
+      </div>
+    </>
   );
 }
