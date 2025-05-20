@@ -1,27 +1,34 @@
 import Image from "next/image";
+import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 
 type ProductCardProps = {
+  id: number;
   image?: string; // image can be undefined or empty
   name: string;
-  price: number;
   categories: string[];
   rating: {
     value: number;
     count: number;
   };
+  price: number;
 };
 
 export default function ProductCard({
+  id,
   image,
   name,
-  price,
   categories,
   rating,
+  price,
 }: ProductCardProps) {
   return (
-    <div className="rounded-lg w-60 h-90 flex flex-col overflow-hidden shadow-sm bg-white hover:shadow-lg transition-shadow duration-300">
+    <Link
+      href={`/products/${id}`}
+      className="rounded-lg border border-black w-60 h-90 flex flex-col overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      style={{ textDecoration: "none", color: "inherit" }}
+    >
       <div className="relative h-48 w-full flex items-center justify-center">
         {image ? (
           <Image
@@ -51,6 +58,6 @@ export default function ProductCard({
           From <span className="font-bold">${price.toFixed(2)}</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
