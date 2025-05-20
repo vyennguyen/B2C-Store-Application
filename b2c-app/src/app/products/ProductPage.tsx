@@ -11,7 +11,7 @@ function ProductPage() {
         {mockProducts.map((product) => (
           <ProductCard
             key={product.id}
-            image={product.images[0]}
+            image="/keyboard.jpg"
             name={product.name}
             price={product.price}
             rating={product.rating}

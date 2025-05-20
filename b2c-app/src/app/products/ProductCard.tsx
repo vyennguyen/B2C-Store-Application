@@ -36,7 +36,7 @@ export default function ProductCard({
         )}
       </div>
       <div className="p-4 flex-1 flex flex-col">
-        <h3 className="text-lg font-semibold mb-1">{name}</h3>
+        <h3 className="text-md font-semibold">{name}</h3>
         <div className="text-gray-500 text-sm mb-2">
           {categories.join(", ")}
         </div>
