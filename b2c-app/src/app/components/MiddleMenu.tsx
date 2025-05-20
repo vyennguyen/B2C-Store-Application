@@ -15,7 +15,11 @@ export default function MiddleMenu() {
     <nav aria-label="Middle Menu">
       <div className="flex justify-center items-center gap-4 w-auto">
         {categories.map((category) => (
-          <Link key={category.name} href={category.path}>
+          <Link
+            key={category.name}
+            href={category.path}
+            className="hover:cursor-pointer hover:underline"
+          >
             {category.name}
           </Link>
         ))}
