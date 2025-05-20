@@ -12,7 +12,7 @@ function ProductPage() {
           <ProductCard
             key={product.id}
             id={product.id}
-            image="/keyboard.jpg"
+            image="/orange.jpg" // Demo image - will change later
             name={product.name}
             price={product.price}
             rating={product.rating}

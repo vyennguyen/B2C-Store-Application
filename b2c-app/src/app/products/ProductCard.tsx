@@ -26,7 +26,7 @@ export default function ProductCard({
   return (
     <Link
       href={`/products/${id}`}
-      className="rounded-lg border border-black w-60 h-90 flex flex-col overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      className="rounded-lg w-60 h-90 flex flex-col overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300 cursor-pointer"
       style={{ textDecoration: "none", color: "inherit" }}
     >
       <div className="relative h-48 w-full flex items-center justify-center">
@@ -36,7 +36,7 @@ export default function ProductCard({
             alt={name}
             fill
             className="object-cover"
-            sizes="288px"
+            sizes="260px"
           />
         ) : (
           <span className="text-gray-400 text-sm">No Image</span>

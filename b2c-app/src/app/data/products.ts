@@ -105,7 +105,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: 8,
-    name: "Low Profile Bluetooth Keyboard",
+    name: "Low Profile Keyboard",
     categories: ["Wireless", "Low Profile", "Mechanical"],
     images: [],
     description:
@@ -118,7 +118,7 @@ export const mockProducts: Product[] = [
   },
   {
     id: 9,
-    name: "Silent Office Bluetooth Keyboard",
+    name: "Silent Office Keyboard",
     categories: ["Wireless", "Low Profile", "Mechanical"],
     images: [],
     description:
