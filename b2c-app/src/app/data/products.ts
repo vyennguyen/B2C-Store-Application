@@ -116,4 +116,17 @@ export const mockProducts: Product[] = [
     availability: true,
     rating: { value: 4.5, count: 531 },
   },
+  {
+    id: 9,
+    name: "Silent Office Bluetooth Keyboard",
+    categories: ["Wireless", "Low Profile", "Mechanical"],
+    images: [],
+    description:
+      "Quiet low-profile keyboard designed for office use, featuring Bluetooth 5.1 and silent tactile switches.",
+    price: 124.99,
+    color: "Space Gray",
+    switchType: "Low-profile Silent Tactile",
+    availability: true,
+    rating: { value: 4.7, count: 684 },
+  },
 ];
