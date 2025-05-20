@@ -8,7 +8,10 @@ export interface Product {
   color: string;
   switchType: string;
   availability: boolean;
-  rating: number;
+  rating: {
+    value: number;
+    count: number;
+  };
 }
 
 export const mockProducts: Product[] = [
@@ -22,7 +25,7 @@ export const mockProducts: Product[] = [
     color: "Black",
     switchType: "Cherry MX Red",
     availability: true,
-    rating: 300,
+    rating: { value: 4.5, count: 300 },
   },
   {
     id: 2,
@@ -34,7 +37,7 @@ export const mockProducts: Product[] = [
     color: "White",
     switchType: "Gateron Blue",
     availability: true,
-    rating: 100,
+    rating: { value: 4.0, count: 100 },
   },
   {
     id: 3,
@@ -46,7 +49,7 @@ export const mockProducts: Product[] = [
     color: "Gray",
     switchType: "Kailh Brown",
     availability: false,
-    rating: 224,
+    rating: { value: 3.5, count: 224 },
   },
   {
     id: 4,
@@ -59,7 +62,7 @@ export const mockProducts: Product[] = [
     color: "Black",
     switchType: "KTT Kang White V3",
     availability: true,
-    rating: 65,
+    rating: { value: 4.5, count: 65 },
   },
   {
     id: 5,
@@ -72,7 +75,7 @@ export const mockProducts: Product[] = [
     color: "Black",
     switchType: "Cherry MX Blue",
     availability: true,
-    rating: 179,
+    rating: { value: 4.5, count: 179 },
   },
   {
     id: 6,
@@ -85,7 +88,7 @@ export const mockProducts: Product[] = [
     color: "White",
     switchType: "Cherry MX Silent Red",
     availability: true,
-    rating: 30,
+    rating: { value: 2.5, count: 30 },
   },
   {
     id: 7,
@@ -98,7 +101,7 @@ export const mockProducts: Product[] = [
     color: "Black",
     switchType: "Kailh Box White",
     availability: false,
-    rating: 0,
+    rating: { value: 0, count: 0 },
   },
   {
     id: 8,
@@ -111,6 +114,6 @@ export const mockProducts: Product[] = [
     color: "Silver",
     switchType: "Low-profile Red",
     availability: true,
-    rating: 531,
+    rating: { value: 4.5, count: 531 },
   },
 ];
