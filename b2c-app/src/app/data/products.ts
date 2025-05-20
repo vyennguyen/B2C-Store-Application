@@ -2,7 +2,7 @@ export interface Product {
   id: number;
   name: string;
   categories: string[];
-  images: string[];
+  images: string[]; // Many different images for one product
   description: string;
   price: number;
   color: string;
