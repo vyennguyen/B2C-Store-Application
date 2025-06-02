@@ -1,28 +1,36 @@
-"use  client";
-import { useState } from "react";
+"use client";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import routes from "@/app/api/route";
 
 const categories = [
-  { name: "Shop", path: "/products" },
-  { name: "Philosophy", path: "/philosophy" },
-  { name: "About Us", path: "/about" },
-  { name: "Contact", path: "/contact" },
+  { name: "Shop", path: routes.products },
+  { name: "Philosophy", path: "/philosophy" }, // add to routes if you want
+  { name: "About Us", path: routes.about },
+  { name: "Contact", path: routes.contact },
 ];
 
 export default function MiddleMenu() {
-  const [selected, setSelected] = useState(false);
+  const pathname = usePathname();
+
   return (
     <nav aria-label="Middle Menu">
       <div className="flex justify-center items-center gap-4 w-auto">
-        {categories.map((category) => (
-          <Link
-            key={category.name}
-            href={category.path}
-            className="hover:cursor-pointer hover:underline"
-          >
-            {category.name}
-          </Link>
-        ))}
+        {categories.map((category) => {
+          const isActive = pathname === category.path;
+          return (
+            <Link
+              key={category.name}
+              href={category.path}
+              className={`hover:underline ${
+                isActive ? "font-bold underline" : ""
+              }`}
+              aria-current={isActive ? "page" : undefined}
+            >
+              {category.name}
+            </Link>
+          );
+        })}
       </div>
     </nav>
   );
