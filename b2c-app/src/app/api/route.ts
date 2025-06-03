@@ -1,3 +1,5 @@
+// Dafault routes for the application
+
 const routes = {
   home: "/",
   about: "/about",

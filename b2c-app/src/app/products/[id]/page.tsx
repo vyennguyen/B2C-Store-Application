@@ -3,7 +3,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import ProductDetail from "./ProductDetail";
+import ProductDetail from "../ProductDetail";
 import { mockProducts } from "../../data/products";
 
 export default function ProductDetailPage() {

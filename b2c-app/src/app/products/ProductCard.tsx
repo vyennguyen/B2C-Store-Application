@@ -1,61 +1,57 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { CiImageOff } from "react-icons/ci";
 
 type ProductCardProps = {
-  id: number;
-  image?: string; // image can be undefined or empty
+  id: string;
+  image?: string;
   name: string;
-  categories: string[];
+  price: number;
   rating: {
     value: number;
     count: number;
   };
-  price: number;
+  categories: string[];
 };
 
 export default function ProductCard({
   id,
   image,
   name,
-  categories,
-  rating,
   price,
+  rating,
+  categories,
 }: ProductCardProps) {
   return (
     <Link
       href={`/products/${id}`}
-      className="rounded-lg w-60 h-90 flex flex-col overflow-hidden bg-white hover:shadow-lg transition-shadow duration-300 cursor-pointer"
+      className="rounded-lg border border-black w-72 h-96 flex flex-col overflow-hidden bg-white hover:bg-gray-50 transition cursor-pointer"
       style={{ textDecoration: "none", color: "inherit" }}
     >
-      <div className="relative h-48 w-full flex items-center justify-center">
+      <div className="relative h-48 w-full bg-gray-100 flex items-center justify-center">
         {image ? (
           <Image
             src={image}
             alt={name}
             fill
             className="object-cover"
-            sizes="260px"
+            sizes="288px"
           />
         ) : (
-          <span className="text-gray-400 text-sm">No Image</span>
+          <CiImageOff className="text-4xl text-gray-400" />
         )}
       </div>
       <div className="p-4 flex-1 flex flex-col">
-        <h3 className="text-md font-semibold">{name}</h3>
-        <div className="text-gray-500 text-sm mb-2">
+        <h3 className="text-lg font-semibold mb-1">{name}</h3>
+        <div className="text-gray-500 text-sm mb-1">
           {categories.join(", ")}
         </div>
-        {rating && (
-          <div className="text-sm mb-2">
-            <FontAwesomeIcon icon={faStar} style={{ color: "#FFD43B" }} />{" "}
-            {rating.value}{" "}
-            <span className="text-gray-400">({rating.count})</span>
-          </div>
-        )}
-        <div className="mt-auto text-lg  text-(--text-dark)">
-          From <span className="font-bold">${price.toFixed(2)}</span>
+        <div className="text-yellow-600 text-sm mb-2">
+          ⭐ {rating.value}{" "}
+          <span className="text-gray-400">({rating.count})</span>
+        </div>
+        <div className="mt-auto text-xl font-bold text-blue-600">
+          from ${price.toFixed(2)}
         </div>
       </div>
     </Link>
