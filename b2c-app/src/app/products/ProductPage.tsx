@@ -1,6 +1,6 @@
-"use client";
+// Server-side fetching
+// Display all product cards
 
-import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 
 type Product = {
@@ -13,27 +13,16 @@ type Product = {
   ratingCount?: number;
 };
 
-function ProductPage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+export default async function ProductPage() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products`, {
+    cache: "no-store", // disables caching to always fetch latest data
+  });
 
-  useEffect(() => {
-    async function fetchProducts() {
-      try {
-        const res = await fetch("/api/products");
-        const data = await res.json();
-        setProducts(data);
-      } catch (error) {
-        console.error("Failed to fetch products:", error);
-      } finally {
-        setLoading(false);
-      }
-    }
+  if (!res.ok) {
+    throw new Error("Failed to fetch products");
+  }
 
-    fetchProducts();
-  }, []);
-
-  if (loading) return <div>Loading products...</div>;
+  const products: Product[] = await res.json();
 
   return (
     <div className="min-h-screen p-5">
@@ -57,5 +46,3 @@ function ProductPage() {
     </div>
   );
 }
-
-export default ProductPage;

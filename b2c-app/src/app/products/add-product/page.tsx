@@ -116,7 +116,7 @@ export default function AddProductPage() {
           onChange={handleChange}
           required
         >
-          <option value="">Select Type</option>
+          <option value="">Select Product Type</option>
           <option value="Keyboard">Keyboard</option>
           <option value="Keycap">Keycap</option>
           <option value="Switch">Switch</option>

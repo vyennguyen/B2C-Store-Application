@@ -138,7 +138,7 @@ export default function ModifyProductPage() {
       });
 
       setSuccess(true);
-      router.push("/products");
+      setTimeout(() => router.push("/products"), 1200);
     } catch (error) {
       setError(true);
       console.error("Error updating product:", error);
