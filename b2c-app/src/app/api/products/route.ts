@@ -27,13 +27,46 @@ export async function POST(req: Request) {
     const newProduct = await prisma.product.create({
       data: {
         name: body.name,
+        type: body.type, // "Keyboard" | "Keycap" | "Switch"
         categories: body.categories,
         images: body.images,
         description: body.description,
         price: body.price,
-        color: body.color,
-        switchType: body.switchType,
         availability: body.availability,
+
+        // create appropriate nested model based on type
+        keyboard:
+          body.type === "Keyboard" && body.keyboard
+            ? {
+                create: {
+                  switchType: body.keyboard.switchType,
+                  color: body.keyboard.color,
+                  layout: body.keyboard.layout,
+                  backlight: body.keyboard.backlight,
+                },
+              }
+            : undefined,
+
+        keycap:
+          body.type === "Keycap" && body.keycap
+            ? {
+                create: {
+                  material: body.keycap.material,
+                  profile: body.keycap.profile,
+                  color: body.keycap.color,
+                  compatibility: body.keycap.compatibility,
+                },
+              }
+            : undefined,
+
+        switch:
+          body.type === "Switch" && body.switch
+            ? {
+                create: {
+                  type: body.switch.type,
+                },
+              }
+            : undefined,
       },
     });
 

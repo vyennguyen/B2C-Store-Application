@@ -10,19 +10,31 @@ export default function ModifyProductPage() {
 
   const [form, setForm] = useState({
     name: "",
+    type: "",
     categories: "",
     images: "",
     description: "",
     price: "",
-    color: "",
-    switchType: "",
     availability: true,
+
+    // shared
+    switchType: "",
+    color: "",
+
+    // keyboard
+    layout: "",
+    backlight: "",
+
+    // keycap
+    material: "",
+    profile: "",
+    keycapColor: "",
+    compatibility: "",
   });
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  // Fetch product by ID and populate form
   useEffect(() => {
     async function fetchProduct() {
       try {
@@ -31,13 +43,23 @@ export default function ModifyProductPage() {
 
         setForm({
           name: product.name || "",
+          type: product.type || "",
           categories: (product.categories || []).join(", "),
           images: (product.images || []).join(", "),
           description: product.description || "",
           price: product.price?.toString() || "",
-          color: product.color || "",
-          switchType: product.switchType || "",
           availability: product.availability ?? true,
+
+          switchType:
+            product.keyboard?.switchType || product.switch?.type || "",
+          color: product.keyboard?.color || product.keycap?.color || "",
+          layout: product.keyboard?.layout || "",
+          backlight: product.keyboard?.backlight?.toString() || "",
+
+          material: product.keycap?.material || "",
+          profile: product.keycap?.profile || "",
+          keycapColor: product.keycap?.color || "",
+          compatibility: product.keycap?.compatibility || "",
         });
 
         setLoading(false);
@@ -50,7 +72,6 @@ export default function ModifyProductPage() {
     if (id) fetchProduct();
   }, [id]);
 
-  // Handle input changes
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -62,25 +83,45 @@ export default function ModifyProductPage() {
     }));
   };
 
-  // Submit updated product
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
+
+    const payload: any = {
+      name: form.name,
+      type: form.type,
+      categories: form.categories.split(",").map((c) => c.trim()),
+      images: form.images.split(",").map((i) => i.trim()),
+      description: form.description,
+      price: parseFloat(form.price),
+      availability: form.availability,
+    };
+
+    if (form.type === "Keyboard") {
+      payload.keyboard = {
+        switchType: form.switchType,
+        color: form.color,
+        layout: form.layout,
+        backlight: form.backlight === "true",
+      };
+    } else if (form.type === "Keycap") {
+      payload.keycap = {
+        material: form.material,
+        profile: form.profile,
+        color: form.keycapColor,
+        compatibility: form.compatibility,
+      };
+    } else if (form.type === "Switch") {
+      payload.switch = {
+        type: form.switchType,
+      };
+    }
 
     try {
       await fetch(`/api/products/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: form.name,
-          categories: form.categories.split(",").map((c) => c.trim()),
-          images: form.images.split(",").map((i) => i.trim()),
-          description: form.description,
-          price: parseFloat(form.price),
-          color: form.color,
-          switchType: form.switchType,
-          availability: form.availability,
-        }),
+        body: JSON.stringify(payload),
       });
 
       router.push("/products");
@@ -101,6 +142,12 @@ export default function ModifyProductPage() {
           name="name"
           placeholder="Name"
           value={form.name}
+          onChange={handleChange}
+        />
+        <input
+          name="type"
+          placeholder="Type (Keyboard, Keycap, Switch)"
+          value={form.type}
           onChange={handleChange}
         />
         <input
@@ -129,18 +176,6 @@ export default function ModifyProductPage() {
           value={form.price}
           onChange={handleChange}
         />
-        <input
-          name="color"
-          placeholder="Color"
-          value={form.color}
-          onChange={handleChange}
-        />
-        <input
-          name="switchType"
-          placeholder="Switch Type"
-          value={form.switchType}
-          onChange={handleChange}
-        />
         <label>
           <input
             name="availability"
@@ -150,6 +185,83 @@ export default function ModifyProductPage() {
           />{" "}
           Available
         </label>
+
+        {/* Conditionally rendered fields */}
+        {form.type === "Keyboard" && (
+          <>
+            <input
+              name="switchType"
+              placeholder="Switch Type"
+              value={form.switchType}
+              onChange={handleChange}
+            />
+            <input
+              name="color"
+              placeholder="Color"
+              value={form.color}
+              onChange={handleChange}
+            />
+            <input
+              name="layout"
+              placeholder="Layout"
+              value={form.layout}
+              onChange={handleChange}
+            />
+            <input
+              name="backlight"
+              placeholder="Backlight (true/false)"
+              value={form.backlight}
+              onChange={handleChange}
+            />
+          </>
+        )}
+
+        {form.type === "Keycap" && (
+          <>
+            <input
+              name="material"
+              placeholder="Material"
+              value={form.material}
+              onChange={handleChange}
+            />
+            <input
+              name="profile"
+              placeholder="Profile"
+              value={form.profile}
+              onChange={handleChange}
+            />
+            <input
+              name="keycapColor"
+              placeholder="Color"
+              value={form.keycapColor}
+              onChange={handleChange}
+            />
+            <input
+              name="compatibility"
+              placeholder="Compatibility"
+              value={form.compatibility}
+              onChange={handleChange}
+            />
+          </>
+        )}
+
+        {form.type === "Switch" && (
+          <>
+            <input
+              name="switchType"
+              placeholder="Type"
+              value={form.switchType}
+              onChange={handleChange}
+            />
+            <input
+              name="color"
+              placeholder="Color"
+              value={form.color}
+              onChange={handleChange}
+            />
+          </>
+        )}
+
         <button
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer"

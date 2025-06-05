@@ -43,13 +43,43 @@ export async function PATCH(req: Request, context: { params: { id: string } }) {
       where: { id },
       data: {
         name: body.name,
+        type: body.type,
         categories: body.categories,
         images: body.images,
         description: body.description,
         price: body.price,
-        color: body.color,
-        switchType: body.switchType,
         availability: body.availability,
+
+        // nested updates for related models if included in the request body
+        keyboard: body.keyboard
+          ? {
+              update: {
+                switchType: body.keyboard.switchType,
+                color: body.keyboard.color,
+                layout: body.keyboard.layout,
+                backlight: body.keyboard.backlight,
+              },
+            }
+          : undefined,
+
+        keycap: body.keycap
+          ? {
+              update: {
+                material: body.keycap.material,
+                profile: body.keycap.profile,
+                color: body.keycap.color,
+                compatibility: body.keycap.compatibility,
+              },
+            }
+          : undefined,
+
+        switch: body.switch
+          ? {
+              update: {
+                type: body.switch.type,
+              },
+            }
+          : undefined,
       },
     });
 

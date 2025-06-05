@@ -1,4 +1,4 @@
-// Dafault routes for the application
+// Default routes for the application
 
 const routes = {
   home: "/",
