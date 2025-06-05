@@ -56,7 +56,7 @@ export default function AddProductPage() {
     if (form.type === "Keyboard") {
       payload.keyboard = {
         switchType: form.switchType,
-        color: form.color,
+        color: form.color.split(",").map((kc) => kc.trim()),
         layout: form.layout,
         backlight: form.backlight,
       };
@@ -64,7 +64,7 @@ export default function AddProductPage() {
       payload.keycap = {
         material: form.material,
         profile: form.profile,
-        color: form.keycapColor,
+        color: form.keycapColor.split(",").map((kcc) => kcc.trim()),
         compatibility: form.compatibility.split(",").map((c) => c.trim()),
       };
     } else if (form.type === "Switch") {
@@ -212,6 +212,7 @@ export default function AddProductPage() {
             />
             <input
               name="compatibility"
+              aria-label="Keycap Compatibility"
               placeholder="Compatibility"
               value={form.compatibility}
               onChange={handleChange}
@@ -223,6 +224,7 @@ export default function AddProductPage() {
           <>
             <input
               name="switchType"
+              aria-label="Switch Type"
               placeholder="Type"
               value={form.switchType}
               onChange={handleChange}
