@@ -4,6 +4,8 @@
 :root {
   --background: #1d2532;
   --foreground: #e4e4e4;
+  --error: #b10f2e;
+  --success: #28965a;
   --text-light: var(--foreground);
   --text-dark: var(--background);
 }

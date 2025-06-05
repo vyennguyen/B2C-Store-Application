@@ -8,6 +8,11 @@ export default function ModifyProductPage() {
   const router = useRouter();
   const id = params?.id;
 
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
+
   const [form, setForm] = useState({
     name: "",
     type: "",
@@ -28,42 +33,46 @@ export default function ModifyProductPage() {
     // keycap
     material: "",
     profile: "",
-    keycapColor: "",
     compatibility: "",
   });
-
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     async function fetchProduct() {
       try {
         const res = await fetch(`/api/products/${id}`);
+
         const product = await res.json();
 
+        // Load product data into form state
         setForm({
           name: product.name || "",
           type: product.type || "",
-          categories: (product.categories || []).join(", "),
-          images: (product.images || []).join(", "),
+          categories: (product.categories || []).filter(Boolean).join(", "),
+          images: (product.images || []).filter(Boolean).join(", "),
           description: product.description || "",
           price: product.price?.toString() || "",
           availability: product.availability ?? true,
 
-          switchType:
-            product.keyboard?.switchType || product.switch?.type || "",
-          color: product.keyboard?.color || product.keycap?.color || "",
+          switchType: [product.keyboard?.switchType, product.switch?.type]
+            .filter(Boolean)
+            .join(", "),
+
+          color: [product.keyboard?.color, product.keycap?.color]
+            .filter(Boolean)
+            .join(", "),
           layout: product.keyboard?.layout || "",
-          backlight: product.keyboard?.backlight?.toString() || "",
+          backlight: product.keyboard?.backlight || "",
 
           material: product.keycap?.material || "",
           profile: product.keycap?.profile || "",
-          keycapColor: product.keycap?.color || "",
-          compatibility: product.keycap?.compatibility || "",
+          compatibility: (product.keycap?.compatibility || [])
+            .filter(Boolean)
+            .join(", "),
         });
 
         setLoading(false);
       } catch (err) {
+        setError(true);
         console.error("Failed to fetch product", err);
         setLoading(false);
       }
@@ -71,6 +80,8 @@ export default function ModifyProductPage() {
 
     if (id) fetchProduct();
   }, [id]);
+
+  if (loading) return <div>Loading...</div>;
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -99,21 +110,23 @@ export default function ModifyProductPage() {
 
     if (form.type === "Keyboard") {
       payload.keyboard = {
-        switchType: form.switchType,
-        color: form.color,
+        switchType: form.switchType.split(",").map((st) => st.trim()),
+        color: form.color.split(",").map((kc) => kc.trim()),
         layout: form.layout,
-        backlight: form.backlight === "true",
+        backlight: form.backlight,
       };
     } else if (form.type === "Keycap") {
       payload.keycap = {
         material: form.material,
         profile: form.profile,
-        color: form.keycapColor,
-        compatibility: form.compatibility,
+        color: form.color.split(",").map((kcc) => kcc.trim()),
+        compatibility: form.compatibility
+          .split(",")
+          .map((compa) => compa.trim()),
       };
     } else if (form.type === "Switch") {
       payload.switch = {
-        type: form.switchType,
+        type: form.switchType.split(",").map((st) => st.trim()),
       };
     }
 
@@ -124,15 +137,15 @@ export default function ModifyProductPage() {
         body: JSON.stringify(payload),
       });
 
+      setSuccess(true);
       router.push("/products");
     } catch (error) {
+      setError(true);
       console.error("Error updating product:", error);
     } finally {
       setSubmitting(false);
     }
   };
-
-  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="max-w-xl mx-auto p-4">
@@ -140,36 +153,42 @@ export default function ModifyProductPage() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           name="name"
-          placeholder="Name"
+          aria-label="Product Name"
+          placeholder="Product Name"
           value={form.name}
           onChange={handleChange}
         />
         <input
           name="type"
-          placeholder="Type (Keyboard, Keycap, Switch)"
+          aria-label="Product Type"
+          placeholder="Product Type"
           value={form.type}
           onChange={handleChange}
         />
         <input
           name="categories"
+          aria-label="Product Categories"
           placeholder="Categories (comma separated)"
           value={form.categories}
           onChange={handleChange}
         />
         <input
           name="images"
+          aria-label="Product Images"
           placeholder="Image URLs (comma separated)"
           value={form.images}
           onChange={handleChange}
         />
         <textarea
           name="description"
+          aria-label="Product Description"
           placeholder="Description"
           value={form.description}
           onChange={handleChange}
         />
         <input
           name="price"
+          aria-label="Product Price"
           type="number"
           step="0.01"
           placeholder="Price"
@@ -179,11 +198,12 @@ export default function ModifyProductPage() {
         <label>
           <input
             name="availability"
+            aria-label="Product Availability"
             type="checkbox"
             checked={form.availability}
             onChange={handleChange}
           />{" "}
-          Available
+          In Stock
         </label>
 
         {/* Conditionally rendered fields */}
@@ -191,25 +211,29 @@ export default function ModifyProductPage() {
           <>
             <input
               name="switchType"
+              aria-label="Keyboard Switch Type"
               placeholder="Switch Type"
               value={form.switchType}
               onChange={handleChange}
             />
             <input
               name="color"
+              aria-label="Keyboard Color"
               placeholder="Color"
               value={form.color}
               onChange={handleChange}
             />
             <input
               name="layout"
+              aria-label="Keyboard Layout"
               placeholder="Layout"
               value={form.layout}
               onChange={handleChange}
             />
             <input
               name="backlight"
-              placeholder="Backlight (true/false)"
+              aria-label="Keyboard Backlight"
+              placeholder="Backlight"
               value={form.backlight}
               onChange={handleChange}
             />
@@ -220,24 +244,28 @@ export default function ModifyProductPage() {
           <>
             <input
               name="material"
+              aria-label="Keycap Material"
               placeholder="Material"
               value={form.material}
               onChange={handleChange}
             />
             <input
               name="profile"
+              aria-label="Keycap Profile"
               placeholder="Profile"
               value={form.profile}
               onChange={handleChange}
             />
             <input
-              name="keycapColor"
+              name="color"
+              aria-label="Keycap Color"
               placeholder="Color"
-              value={form.keycapColor}
+              value={form.color}
               onChange={handleChange}
             />
             <input
               name="compatibility"
+              aria-label="Keycap Compatibility"
               placeholder="Compatibility"
               value={form.compatibility}
               onChange={handleChange}
@@ -249,22 +277,29 @@ export default function ModifyProductPage() {
           <>
             <input
               name="switchType"
+              aria-label="Switch Type"
               placeholder="Type"
               value={form.switchType}
-              onChange={handleChange}
-            />
-            <input
-              name="color"
-              placeholder="Color"
-              value={form.color}
               onChange={handleChange}
             />
           </>
         )}
 
+        {success && (
+          <div className="mb-4 text-(--success) font-semibold">
+            Product updated successfully!
+          </div>
+        )}
+
+        {error && (
+          <div className="mb-4 text-(--error) font-semibold">
+            An error has occured while updating the product. Please try again.
+          </div>
+        )}
+
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer"
+          className="bg-(--background) text-(--foreground) px-4 py-2 rounded cursor-pointer"
           disabled={submitting}
         >
           {submitting ? "Saving..." : "Update Product"}

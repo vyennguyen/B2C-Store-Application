@@ -3,6 +3,8 @@
 import { useState } from "react";
 
 export default function AddProductPage() {
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
   const [form, setForm] = useState({
     name: "",
     type: "",
@@ -23,7 +25,6 @@ export default function AddProductPage() {
     // Keycap
     material: "",
     profile: "",
-    keycapColor: "",
     compatibility: "",
   });
 
@@ -55,7 +56,7 @@ export default function AddProductPage() {
 
     if (form.type === "Keyboard") {
       payload.keyboard = {
-        switchType: form.switchType,
+        switchType: form.switchType.split(",").map((st) => st.trim()),
         color: form.color.split(",").map((kc) => kc.trim()),
         layout: form.layout,
         backlight: form.backlight,
@@ -64,12 +65,12 @@ export default function AddProductPage() {
       payload.keycap = {
         material: form.material,
         profile: form.profile,
-        color: form.keycapColor.split(",").map((kcc) => kcc.trim()),
+        color: form.color.split(",").map((kcc) => kcc.trim()),
         compatibility: form.compatibility.split(",").map((c) => c.trim()),
       };
     } else if (form.type === "Switch") {
       payload.switch = {
-        type: form.switchType,
+        type: form.switchType.split(",").map((st) => st.trim()),
       };
     }
 
@@ -79,12 +80,28 @@ export default function AddProductPage() {
       body: JSON.stringify(payload),
     });
 
-    const result = await res.json();
     if (res.ok) {
-      alert("Product added!");
-      window.location.reload();
+      setSuccess(true);
+      setForm({
+        name: "",
+        type: "",
+        categories: "",
+        images: "",
+        description: "",
+        price: "",
+        availability: true,
+        switchType: "",
+        color: "",
+        layout: "",
+        backlight: "",
+        material: "",
+        profile: "",
+        compatibility: "",
+      });
     } else {
-      alert("Error: " + result.error);
+      setSuccess(false);
+      setError(true);
+      console.error("Failed to add product");
     }
   };
 
@@ -92,14 +109,6 @@ export default function AddProductPage() {
     <div className="max-w-xl mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Add Product</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <input
-          name="name"
-          aria-label="Product Name"
-          placeholder="Product Name"
-          value={form.name}
-          onChange={handleChange}
-          required
-        />
         <select
           name="type"
           aria-label="Product Type"
@@ -112,6 +121,14 @@ export default function AddProductPage() {
           <option value="Keycap">Keycap</option>
           <option value="Switch">Switch</option>
         </select>
+        <input
+          name="name"
+          aria-label="Product Name"
+          placeholder="Product Name"
+          value={form.name}
+          onChange={handleChange}
+          required
+        />
         <input
           name="categories"
           aria-label="Product Categories"
@@ -207,7 +224,7 @@ export default function AddProductPage() {
               name="keycapColor"
               aria-label="Keycap Color"
               placeholder="Color"
-              value={form.keycapColor}
+              value={form.color}
               onChange={handleChange}
             />
             <input
@@ -232,9 +249,21 @@ export default function AddProductPage() {
           </>
         )}
 
+        {success && (
+          <div className="mb-4 text-(--success) font-semibold">
+            Product added successfully!
+          </div>
+        )}
+
+        {error && (
+          <div className="mb-4 text-(--error) font-semibold">
+            An error occurred while adding the product. Please try again.
+          </div>
+        )}
+
         <button
           type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded cursor-pointer"
+          className="bg-(--background) text-(--foreground) px-4 py-2 rounded cursor-pointer"
         >
           Add Product
         </button>
