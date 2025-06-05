@@ -42,10 +42,10 @@ enum ProductType {
 
 model Keyboard {
   productId   Int     @id
-  switchType  String
-  color       String
+  switchType  String[]
+  color       String[]
   layout      String
-  backlight   Boolean
+  backlight   String[]
   Product     Product @relation(fields: [productId], references: [id])
 }
 

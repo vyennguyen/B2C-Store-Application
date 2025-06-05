@@ -94,12 +94,19 @@ export default function AddProductPage() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           name="name"
-          placeholder="Name"
+          aria-label="Product Name"
+          placeholder="Product Name"
           value={form.name}
           onChange={handleChange}
           required
         />
-        <select name="type" value={form.type} onChange={handleChange} required>
+        <select
+          name="type"
+          aria-label="Product Type"
+          value={form.type}
+          onChange={handleChange}
+          required
+        >
           <option value="">Select Type</option>
           <option value="Keyboard">Keyboard</option>
           <option value="Keycap">Keycap</option>
@@ -107,24 +114,28 @@ export default function AddProductPage() {
         </select>
         <input
           name="categories"
+          aria-label="Product Categories"
           placeholder="Categories (comma separated)"
           value={form.categories}
           onChange={handleChange}
         />
         <input
           name="images"
+          aria-label="Product Images"
           placeholder="Image URLs (comma separated)"
           value={form.images}
           onChange={handleChange}
         />
         <textarea
           name="description"
+          aria-label="Product Description"
           placeholder="Description"
           value={form.description}
           onChange={handleChange}
         />
         <input
           name="price"
+          aria-label="Product Price"
           placeholder="Price"
           type="number"
           step="0.01"
@@ -134,37 +145,42 @@ export default function AddProductPage() {
         <label>
           <input
             name="availability"
+            aria-label="Product Availability"
             type="checkbox"
             checked={form.availability}
             onChange={handleChange}
           />{" "}
-          Available
+          In Stock
         </label>
 
-        {/* Conditionally rendered fields */}
+        {/* Keyboard form */}
         {form.type === "Keyboard" && (
           <>
             <input
               name="switchType"
+              aria-label="Keyboard Switch Type"
               placeholder="Switch Type"
               value={form.switchType}
               onChange={handleChange}
             />
             <input
               name="color"
+              aria-label="Keyboard Color"
               placeholder="Color"
               value={form.color}
               onChange={handleChange}
             />
             <input
               name="layout"
+              aria-label="Keyboard Layout"
               placeholder="Layout"
               value={form.layout}
               onChange={handleChange}
             />
             <input
               name="backlight"
-              placeholder="Backlight (true/false)"
+              aria-label="Keyboard Backlight"
+              placeholder="Backlight"
               value={form.backlight}
               onChange={handleChange}
             />
@@ -175,18 +191,21 @@ export default function AddProductPage() {
           <>
             <input
               name="material"
+              aria-label="Keycap Material"
               placeholder="Material"
               value={form.material}
               onChange={handleChange}
             />
             <input
               name="profile"
+              aria-label="Keycap Profile"
               placeholder="Profile"
               value={form.profile}
               onChange={handleChange}
             />
             <input
               name="keycapColor"
+              aria-label="Keycap Color"
               placeholder="Color"
               value={form.keycapColor}
               onChange={handleChange}
