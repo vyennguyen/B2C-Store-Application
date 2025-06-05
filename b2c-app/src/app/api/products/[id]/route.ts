@@ -1,17 +1,28 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 // Fetch a product by id
 // GET /api/products/[id]
-export async function GET(context: { params: { id: string } }) {
-  try {
-    const id = parseInt(context.params.id, 10);
-    if (isNaN(id)) {
-      return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
-    }
+export async function GET(
+  req: NextRequest,
+  context: { params: { id: string } }
+) {
+  const { id } = context.params;
 
+  const parsedId = parseInt(id, 10);
+
+  if (isNaN(parsedId)) {
+    return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
+  }
+
+  try {
     const product = await prisma.product.findUnique({
-      where: { id },
+      where: { id: parsedId },
+      include: {
+        keyboard: true,
+        keycap: true,
+        switch: true,
+      },
     });
 
     if (!product) {
@@ -19,10 +30,10 @@ export async function GET(context: { params: { id: string } }) {
     }
 
     return NextResponse.json(product);
-  } catch (error) {
-    console.error("Failed to fetch product:", error);
+  } catch (err) {
+    console.error(err);
     return NextResponse.json(
-      { error: "Failed to fetch product" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

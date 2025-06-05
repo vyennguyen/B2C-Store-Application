@@ -1,4 +1,4 @@
-// Route for adding, modifying and deleting a product
+// Route for getting and adding a product
 
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
     const newProduct = await prisma.product.create({
       data: {
         name: body.name,
-        type: body.type, // "Keyboard" | "Keycap" | "Switch"
+        type: body.type,
         categories: body.categories,
         images: body.images,
         description: body.description,
