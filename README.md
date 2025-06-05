@@ -1,7 +1,5 @@
 # B2C-Store-Application
 
-# B2C-Store-Application
-
 A full-stack B2C (Business-to-Consumer) e-commerce web application for managing and browsing products such as keyboards, keycaps, and switches.
 
 ## Features
