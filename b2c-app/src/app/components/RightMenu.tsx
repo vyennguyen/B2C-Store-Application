@@ -19,7 +19,7 @@ export default function RightMenu() {
         <button
           onClick={() => setCartOpen(true)}
           className="flex items-center gap-2 cursor-pointer"
-          aria-label="Open cart"
+          aria-label="Open Cart"
         >
           <FontAwesomeIcon icon={faBagShopping} />
           <span className="sr-only">Cart</span>
@@ -38,10 +38,11 @@ export default function RightMenu() {
         <>
           {/* Dark overlay without blur */}
           <div
-            className="backdrop-brightness-50 fixed inset-0"
+            className="fixed inset-0 bg-black/50 z-40"
             onClick={() => setCartOpen(false)}
             aria-hidden="true"
           />
+
           <div
             className="fixed top-0 right-0 h-full w-80 z-50 shadow-lg bg-white transition-transform duration-300 transform"
             style={{

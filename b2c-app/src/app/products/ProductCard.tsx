@@ -25,10 +25,11 @@ export default function ProductCard({
   return (
     <Link
       href={`/products/${id}`}
-      className="rounded-lg border border-black w-72 h-96 flex flex-col overflow-hidden bg-white hover:bg-gray-50 transition cursor-pointer"
-      style={{ textDecoration: "none", color: "inherit" }}
+      aria-label={`View details for ${name}`}
+      className="group relative rounded-lg border border-gray-100 w-72 h-96 flex flex-col overflow-hidden bg-gray-50 cursor-pointer transition-colors"
     >
-      <div className="relative h-48 w-full bg-gray-100 flex items-center justify-center">
+      {/* Image Section */}
+      <div className="relative h-48 w-full flex items-center justify-center">
         {image ? (
           <Image
             src={image}
@@ -41,17 +42,31 @@ export default function ProductCard({
           <CiImageOff className="text-4xl text-gray-400" />
         )}
       </div>
-      <div className="p-4 flex-1 flex flex-col">
-        <h3 className="text-lg font-semibold mb-1">{name}</h3>
-        <div className="text-gray-500 text-sm mb-1">
-          {categories.join(", ")}
-        </div>
-        <div className="text-yellow-600 text-sm mb-2">
-          ⭐ {rating.value}{" "}
-          <span className="text-gray-400">({rating.count})</span>
-        </div>
-        <div className="mt-auto text-xl font-bold text-blue-600">
-          from ${price.toFixed(2)}
+
+      {/* Text Section with Background Wave */}
+      <div className="relative z-0 flex-1">
+        {/* Wavy Transition Layer */}
+        <div className="absolute inset-0 before:absolute before:left-[-100%] before:top-0 before:h-full before:w-full before:bg-gradient-to-r before:from-gray-800 before:to-(--background) before:z-0 group-hover:before:left-0 before:transition-all before:duration-500 before:ease-in-out rounded-b-lg" />
+        {/* Actual Text */}
+        <div className="p-4 relative z-10 h-full flex flex-col transition-colors duration-500 group-hover:text-white">
+          <h3 className="text-(--background) text-xl font-bold mb-1 group-hover:text-white">
+            {name}
+          </h3>
+          <div className="text-(--medium-gray) text-lg font-light mb-1 group-hover:text-white">
+            {categories.join(", ")}
+          </div>
+          <div className="text-(--star-yellow) text-md mb-2 group-hover:text-yellow-300">
+            ⭐ {rating.value}{" "}
+            <span className="text-gray-400 group-hover:text-white">
+              ({rating.count})
+            </span>
+          </div>
+          <div className="mt-auto text-md font-bold text-(--background) group-hover:text-white">
+            <span className="font-light group-hover:text-(--foreground)">
+              From
+            </span>{" "}
+            ${price.toFixed(2)}
+          </div>
         </div>
       </div>
     </Link>

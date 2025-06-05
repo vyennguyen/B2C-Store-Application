@@ -6,6 +6,8 @@
   --foreground: #e4e4e4;
   --error: #b10f2e;
   --success: #28965a;
+  --star-yellow: #f5ab00;
+  --medium-gray: #6a7282;
   --text-light: var(--foreground);
   --text-dark: var(--background);
 }
