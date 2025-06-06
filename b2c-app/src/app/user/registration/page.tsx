@@ -4,8 +4,10 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function RegistrationForm() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -25,6 +27,7 @@ export default function RegistrationForm() {
     setError(null);
 
     try {
+      // Send registration data to the API
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
@@ -39,13 +42,18 @@ export default function RegistrationForm() {
         if (data.fields) {
           setFieldErrors(data.fields);
         }
-        setError(data.error); // Default error message
+        setError(data.error);
       } else {
-        setSuccess("Registration successful! You can now log in.");
+        setSuccess(
+          "Registration successful! Pleasse log in with your new account."
+        );
         setName("");
         setEmail("");
         setPassword("");
         setFieldErrors({});
+        setTimeout(() => {
+          router.push("/user/login"); // Redirect to login page after success
+        }, 2000);
       }
     } catch (error) {
       setError("An unexpected error occurred");
@@ -57,7 +65,7 @@ export default function RegistrationForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="h-screen w-full px-115 py-20 bg-(--foreground) text-(--background)"
+      className="h-screen w-full px-115 py-30 bg-(--foreground) text-(--background)"
     >
       <h2 className="text-2xl font-bold mb-3 text-center">Create an Account</h2>
 
