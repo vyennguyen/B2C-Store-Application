@@ -3,8 +3,9 @@
 
 :root {
   --background: #1d2532;
+  --background-hover: #263144;
   --foreground: #e4e4e4;
-  --error: #b10f2e;
+  --error: #ff0000;
   --success: #28965a;
   --star-yellow: #f5ab00;
   --medium-gray: #6a7282;
