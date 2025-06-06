@@ -2,21 +2,20 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 
-export default function LoginPage() {
+export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
+    setError(null);
+    setLoading(true);
 
-    if (!email || !password) {
-      setError("Oops! Email and password are both required.");
-      return;
-    }
-
-    // TODO: Send login request to your API route
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
@@ -25,69 +24,98 @@ export default function LoginPage() {
       });
 
       const data = await res.json();
+
       if (!res.ok) {
         setError(data.error || "Login failed.");
-        return;
+      } else {
+        // Success handling (e.g., redirect)
+        console.log("Logged in!");
       }
-
-      // Redirect or update UI
-      window.location.href = "/";
     } catch (err) {
-      setError("Something went wrong. Please try again.");
+      setError("An unexpected error occurred.");
+    } finally {
+      setLoading(false);
     }
-  };
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <form
-        onSubmit={handleLogin}
-        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
-      >
-        <h1 className="text-2xl font-bold mb-6 text-center">Welcome Back</h1>
+    <form
+      onSubmit={handleLogin}
+      className="h-screen w-full px-115 py-30 bg-(--foreground) text-(--background)"
+    >
+      <h2 className="text-2xl font-bold mb-3 text-center">Welcome Back</h2>
 
-        {error && (
-          <div className="mb-4 text-(--error) bg-red-100 px-3 py-2 rounded text-sm">
-            {error}
-          </div>
-        )}
-
-        <label className="block mb-2 text-sm font-medium text-gray-700">
-          Email
-        </label>
+      <label className="block mb-2">
+        Email
         <input
           type="email"
-          className="w-full px-3 py-2 mb-4 border rounded-md focus:outline-none focus:ring focus:border-blue-400"
+          placeholder="example@mail.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          placeholder="example@mail.com"
+          className="w-full mt-1 p-2 border rounded-lg"
         />
+      </label>
 
-        <label className="block mb-2 text-sm font-medium text-gray-700">
-          Password
-        </label>
+      <label className="block mb-4">
+        Password
         <input
           type="password"
-          className="w-full px-3 py-2 mb-4 border rounded-md focus:outline-none focus:ring focus:border-blue-400"
+          placeholder="Enter your password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className="w-full mt-1 p-2 border rounded-lg"
         />
+      </label>
 
+      <p className="text-md text-(--background-hover) mb-2 text-center">
+        Don't have an account?{" "}
+        <Link
+          href="/user/registration"
+          className="relative font-semibold text-(--background) hover:text-(--background-hover) transition-colors duration-300
+             after:absolute after:bottom-0 after:left-0 after:h-[2px]
+             after:w-0 after:bg-(--background) after:transition-all after:duration-300 after:ease-in-out
+             hover:after:w-full"
+        >
+          Create one
+        </Link>
+      </p>
+
+      <p className="text-md text-center mb-6">
+        <Link
+          href="/user/reset-password"
+          className="relative font-semibold text-(--background) hover:text-(--background-hover) transition-colors duration-300
+             after:absolute after:bottom-0 after:left-0 after:h-[2px]
+             after:w-0 after:bg-(--background) after:transition-all after:duration-300 after:ease-in-out
+             hover:after:w-full"
+        >
+          Forgot your password?
+        </Link>
+      </p>
+
+      <div className="flex justify-center">
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
+          className="relative px-6 py-2 rounded-full overflow-hidden text-(--background) bg-(--foreground) cursor-pointer group"
+          disabled={loading}
         >
-          Log In
-        </button>
+          {/* Background Wave */}
+          <span className="absolute inset-0 before:absolute before:left-[-100%] before:top-0 before:h-full before:w-full before:bg-gradient-to-r before:from-gray-800 before:to-(--background) before:z-0 group-hover:before:left-0 before:transition-all before:duration-500 before:ease-in-out before:rounded-full z-0" />
 
-        <div className="mt-4 flex justify-between text-sm text-blue-600">
-          <Link href="/register" className="hover:underline">
-            Create an Account
-          </Link>
-          <Link href="/forgot-password" className="hover:underline">
-            Forgot your password?
-          </Link>
-        </div>
-      </form>
-    </div>
+          {/* Button Text */}
+          <span className="group-hover:text-white relative z-10 text-lg font-semibold">
+            Log in
+          </span>
+        </button>
+      </div>
+
+      {error && (
+        <p className="mt-4 text-(--error) text-center">
+          <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-(--error) text-white mr-2">
+            <FontAwesomeIcon icon={faExclamation} size="xs" />
+          </span>
+          {error}
+        </p>
+      )}
+    </form>
   );
 }

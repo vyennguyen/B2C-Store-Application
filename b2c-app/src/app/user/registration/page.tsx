@@ -131,23 +131,33 @@ export default function RegistrationForm() {
           </p>
         )}
       </label>
-      <p className="text-sm text-(--background-hover) mb-2 text-center">
+      <p className="text-md text-(--background-hover) mb-2 text-center">
         Already have an account?{" "}
         <Link
-          href="/user/login"
-          className="underline font-semibold hover:text-(--background)"
+          href="/user/registration"
+          className="relative font-semibold text-(--background) hover:text-(--background-hover) transition-colors duration-300
+             after:absolute after:bottom-0 after:left-0 after:h-[2px]
+             after:w-0 after:bg-(--background) after:transition-all after:duration-300 after:ease-in-out
+             hover:after:w-full"
         >
           Log in
         </Link>{" "}
         instead
       </p>
       <div className="flex justify-center">
+        {" "}
         <button
           type="submit"
-          className="w-30 bg-(--background) text-(--foreground) py-2 rounded-full hover:bg-(--background-hover) cursor-pointer"
+          className="relative px-6 py-2 rounded-full overflow-hidden text-(--background) bg-(--foreground) cursor-pointer group"
           disabled={loading}
         >
-          Continue
+          {/* Background Wave */}
+          <span className="absolute inset-0 before:absolute before:left-[-100%] before:top-0 before:h-full before:w-full before:bg-gradient-to-r before:from-gray-800 before:to-(--background) before:z-0 group-hover:before:left-0 before:transition-all before:duration-500 before:ease-in-out before:rounded-full z-0" />
+
+          {/* Button Text */}
+          <span className="group-hover:text-white relative z-10 text-lg font-semibold">
+            Continue
+          </span>
         </button>
       </div>
 
