@@ -134,7 +134,7 @@ export default function RegistrationForm() {
       <p className="text-md text-(--background-hover) mb-2 text-center">
         Already have an account?{" "}
         <Link
-          href="/user/registration"
+          href="/user/login"
           className="relative font-semibold text-(--background) hover:text-(--background-hover) transition-colors duration-300
              after:absolute after:bottom-0 after:left-0 after:h-[2px]
              after:w-0 after:bg-(--background) after:transition-all after:duration-300 after:ease-in-out
@@ -170,7 +170,9 @@ export default function RegistrationForm() {
         </p>
       )}
 
-      {success && <p className="mt-4 text-center text-(--error)">{success}</p>}
+      {success && (
+        <p className="mt-4 text-center text-(--success)">{success}</p>
+      )}
     </form>
   );
 }

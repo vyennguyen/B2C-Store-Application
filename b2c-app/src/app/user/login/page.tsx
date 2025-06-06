@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 
@@ -10,6 +11,7 @@ export default function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -28,8 +30,11 @@ export default function LoginForm() {
       if (!res.ok) {
         setError(data.error || "Login failed.");
       } else {
-        // Success handling (e.g., redirect)
-        console.log("Logged in!");
+        if (data.user?.role === "ADMIN") {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
       }
     } catch (err) {
       setError("An unexpected error occurred.");
@@ -43,7 +48,8 @@ export default function LoginForm() {
       onSubmit={handleLogin}
       className="h-screen w-full px-115 py-30 bg-(--foreground) text-(--background)"
     >
-      <h2 className="text-2xl font-bold mb-3 text-center">Welcome Back</h2>
+      <h2 className="text-2xl font-bold mb-2 text-center">Welcome Back</h2>
+      <h3 className="text-md mb-2 text-center">Log into Klicky</h3>
 
       <label className="block mb-2">
         Email
@@ -60,7 +66,9 @@ export default function LoginForm() {
         Password
         <input
           type="password"
+          name="password"
           placeholder="Enter your password"
+          autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full mt-1 p-2 border rounded-lg"
