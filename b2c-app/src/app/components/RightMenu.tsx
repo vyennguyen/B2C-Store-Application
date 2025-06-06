@@ -4,6 +4,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBagShopping, faUser } from "@fortawesome/free-solid-svg-icons";
 import SearchBar from "./SearchBar";
+import LogoutButton from "./LogoutButton";
 
 export default function RightMenu() {
   const [cartOpen, setCartOpen] = useState(false);
@@ -32,6 +33,7 @@ export default function RightMenu() {
           <FontAwesomeIcon icon={faUser} />
           <span className="sr-only">Account</span>
         </Link>
+        <LogoutButton />
       </div>
       {/* Slide-out Cart Panel and Overlay */}
       {cartOpen && (

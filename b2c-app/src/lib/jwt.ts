@@ -1,23 +1,34 @@
-import jwt from "jsonwebtoken";
+// lib/jwt.ts
+import { SignJWT, jwtVerify } from "jose";
 
-const JWT_SECRET = process.env.JWT_SECRET || "klicky_dev_secret";
+// Your secret must be encoded into a Uint8Array
+const JWT_SECRET = new TextEncoder().encode(
+  process.env.JWT_SECRET || "klicky_dev_secret"
+);
 const EXPIRES_IN = "1d";
 
-type JwtPayload = {
+export type JwtPayload = {
   id: number;
   email: string;
   role: "ADMIN" | "USER";
 };
 
-export function signJwt(payload: JwtPayload): string {
-  return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: EXPIRES_IN,
-  });
+// Sign JWT using jose
+export async function signJwt(payload: JwtPayload): Promise<string> {
+  return await new SignJWT(payload)
+    .setProtectedHeader({ alg: "HS256" })
+    .setIssuedAt()
+    .setExpirationTime(EXPIRES_IN)
+    .sign(JWT_SECRET);
 }
 
-export function verifyJwt<T = JwtPayload>(token: string): T | null {
+// Verify JWT using jose
+export async function verifyJwt<T = JwtPayload>(
+  token: string
+): Promise<T | null> {
   try {
-    return jwt.verify(token, JWT_SECRET) as T;
+    const { payload } = await jwtVerify(token, JWT_SECRET);
+    return payload as T;
   } catch (err) {
     console.error("JWT verification failed:", err);
     return null;

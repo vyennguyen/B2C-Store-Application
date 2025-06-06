@@ -46,7 +46,8 @@ export async function POST(req: Request) {
       );
     }
 
-    const token = signJwt({
+    // Sign the token  with secret key
+    const token = await signJwt({
       id: user.id,
       email: user.email,
       role: user.role,
@@ -60,7 +61,7 @@ export async function POST(req: Request) {
       path: "/",
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24, // 1 days
-      sameSite: "lax",
+      sameSite: "strict",
     });
 
     return NextResponse.json({
