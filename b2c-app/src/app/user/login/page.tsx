@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExclamation } from "@fortawesome/free-solid-svg-icons";
 
@@ -10,43 +11,46 @@ export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
-    try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+    // Call next-auth signIn with credentials provider
+    const res = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        setError(data.error || "Login failed.");
-      } else {
-        if (data.user?.role === "ADMIN") {
-          router.push("/admin");
-        } else {
-          router.push("/");
-        }
-      }
-    } catch (err) {
-      setError("An unexpected error occurred.");
-    } finally {
+    if (res?.error) {
+      setError(res.error);
       setLoading(false);
+      return;
     }
   }
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      setSuccess("Login successfully! Redirecting...");
+      const role = session?.user?.role?.toUpperCase();
+      if (role === "ADMIN") {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
+    }
+  }, [status, session, router]);
 
   return (
     <form
       onSubmit={handleLogin}
-      className="h-screen w-full px-115 py-30 bg-(--foreground) text-(--background)"
+      className="h-screen w-full px-115 py-30 bg-white text-(--background)"
     >
       <h2 className="text-2xl font-bold mb-2 text-center">Welcome Back</h2>
       <h3 className="text-md mb-2 text-center">Log into Klicky</h3>
@@ -106,10 +110,7 @@ export default function LoginForm() {
           className="relative px-6 py-2 rounded-full overflow-hidden text-(--background) bg-(--foreground) cursor-pointer group"
           disabled={loading}
         >
-          {/* Background Wave */}
           <span className="absolute inset-0 before:absolute before:left-[-100%] before:top-0 before:h-full before:w-full before:bg-gradient-to-r before:from-gray-800 before:to-(--background) before:z-0 group-hover:before:left-0 before:transition-all before:duration-500 before:ease-in-out before:rounded-full z-0" />
-
-          {/* Button Text */}
           <span className="group-hover:text-white relative z-10 text-lg font-semibold">
             Log in
           </span>
@@ -123,6 +124,10 @@ export default function LoginForm() {
           </span>
           {error}
         </p>
+      )}
+
+      {success && (
+        <p className="mt-4 text-center text-(--success)">{success}</p>
       )}
     </form>
   );

@@ -1,13 +1,11 @@
-// Entry point for the product page
+// Entry point for the admin product page
 
-import NavBar from "../../components/NavBar";
 import LeftMenu from "../../components/LeftMenu";
 import ProductPage from "../../products/ProductPage";
 
 export default function ProductsPage() {
   return (
     <>
-      <NavBar />
       {/* Main content for the product page */}
       <div className="flex min-h-screen">
         <div className="w-[25%]">

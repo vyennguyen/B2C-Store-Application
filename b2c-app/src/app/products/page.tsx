@@ -7,7 +7,6 @@ import ProductPage from "../products/ProductPage";
 export default function ProductsPage() {
   return (
     <>
-      <NavBar />
       {/* Main content for the product page */}
       <div className="flex min-h-screen">
         <div className="w-[25%]">

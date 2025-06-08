@@ -11,14 +11,17 @@ const userCategories = [
   { name: "Contact", path: routes.contact },
 ];
 
+// Admin routes
 const adminCategories = [
   { name: "Products", path: "/admin/products" },
   { name: "Orders", path: "/admin/orders" },
+  { name: "Users", path: "/admin/users" },
 ];
 
 export default function MiddleMenu() {
   const pathname = usePathname();
 
+  // Route-based component rendering
   const isAdmin = pathname.startsWith("/admin");
   const categories = isAdmin ? adminCategories : userCategories;
 
@@ -26,7 +29,7 @@ export default function MiddleMenu() {
     <nav aria-label="Middle Menu">
       <div
         className={`flex justify-center items-center gap-4 w-auto ${
-          isAdmin ? "bg-gray-100 px-4 py-2 rounded" : ""
+          isAdmin ? "bg-white px-4 py-2 rounded-full" : ""
         }`}
       >
         {categories.map((category) => {
@@ -35,9 +38,13 @@ export default function MiddleMenu() {
             <Link
               key={category.name}
               href={category.path}
-              className={`hover:underline ${
-                isActive ? "font-bold underline" : ""
-              } ${isAdmin ? "text-sm text-gray-800" : ""}`}
+              className={`${
+                isActive
+                  ? "font-bold bg-(--background) text-white rounded-full"
+                  : ""
+              } ${
+                isAdmin ? "text-sm text-(--background)" : ""
+              } hover:bg-(--background) hover:text-white px-4 py-1 rounded-full transition`}
               aria-current={isActive ? "page" : undefined}
             >
               {category.name}

@@ -1,35 +1,22 @@
 // middleware.ts
+// Protects admin routes
+
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { jwtVerify } from "jose";
+import { getToken } from "next-auth/jwt";
 
-// Prepare the secret key for verification
-const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "klicky_dev_secret"
-);
+const secret = process.env.NEXTAUTH_SECRET;
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get("token")?.value;
-
+  const token = await getToken({ req, secret });
   const isAdminPath = req.nextUrl.pathname.startsWith("/admin");
 
-  // Debugger
-  console.log("Middleware is running:", req.nextUrl.pathname);
+  console.log("Middleware running:", req.nextUrl.pathname);
 
   if (isAdminPath) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/user/login", req.url));
-    }
-
-    try {
-      const { payload } = await jwtVerify(token, JWT_SECRET);
-
-      if (typeof payload !== "object" || !payload || payload.role !== "ADMIN") {
-        return NextResponse.redirect(new URL("/unauthorized", req.url));
-      }
-    } catch (err) {
-      console.error("JWT verification failed:", err);
-      return NextResponse.redirect(new URL("/user/login", req.url));
+    if (!token || token.role !== "ADMIN") {
+      const redirectTo = token ? "/unauthorized" : "/user/login";
+      return NextResponse.redirect(new URL(redirectTo, req.url));
     }
   }
 

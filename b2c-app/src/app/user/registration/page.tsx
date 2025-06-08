@@ -52,8 +52,8 @@ export default function RegistrationForm() {
         setPassword("");
         setFieldErrors({});
         setTimeout(() => {
-          router.push("/user/login"); // Redirect to login page after success
-        }, 2000);
+          router.push("/user/login");
+        }, 1200);
       }
     } catch (error) {
       setError("An unexpected error occurred");
@@ -65,7 +65,7 @@ export default function RegistrationForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="h-screen w-full px-115 py-30 bg-(--foreground) text-(--background)"
+      className="h-screen w-full px-115 py-30 bg-white text-(--background)"
     >
       <h2 className="text-2xl font-bold mb-3 text-center">Create an Account</h2>
 
@@ -181,6 +181,8 @@ export default function RegistrationForm() {
       {success && (
         <p className="mt-4 text-center text-(--success)">{success}</p>
       )}
+
+      <p className="mt-4 text-center font-bold text-(--success)">success</p>
     </form>
   );
 }

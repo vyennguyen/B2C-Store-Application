@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
 export async function POST(req: Request) {
-  const { email, password, name } = await req.json();
+  const { email, password, name, role } = await req.json();
 
   if (!email || !password || !name) {
     const errors: Record<string, string> = {};
@@ -30,6 +30,11 @@ export async function POST(req: Request) {
     );
   }
 
+  const allowedRoles = ["USER", "ADMIN"];
+  const validatedRole = allowedRoles.includes(role?.toUpperCase())
+    ? role.toUpperCase()
+    : "USER";
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
@@ -38,7 +43,7 @@ export async function POST(req: Request) {
         email,
         password: hashedPassword,
         name,
-        // role defaults to USER
+        role: validatedRole,
       },
     });
 

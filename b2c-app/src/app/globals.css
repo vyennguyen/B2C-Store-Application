@@ -7,7 +7,8 @@
   --foreground: #e4e4e4;
   --fg-hover: #cccccc;
   --error: #ff0000;
-  --success: #28965a;
+  --e-hover: #cc0000;
+  --success: #00b530;
   --star-yellow: #f5ab00;
   --medium-gray: #6a7282;
   --text-light: var(--foreground);
