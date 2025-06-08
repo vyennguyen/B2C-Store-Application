@@ -81,7 +81,8 @@ export default function ModifyProductPage() {
     if (id) fetchProduct();
   }, [id]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading)
+    return <div className="text-center text-xl mt-10">Loading...</div>;
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -149,8 +150,9 @@ export default function ModifyProductPage() {
 
   return (
     <div className="max-w-xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Modify Product</h1>
+      <h1 className="text-2xl font-bold mb-4 text-center">Modify Product</h1>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <label className="font-bold">Product Name</label>
         <input
           name="name"
           aria-label="Product Name"
@@ -158,6 +160,7 @@ export default function ModifyProductPage() {
           value={form.name}
           onChange={handleChange}
         />
+        <label className="font-bold">Product Type</label>
         <input
           name="type"
           aria-label="Product Type"
@@ -165,6 +168,7 @@ export default function ModifyProductPage() {
           value={form.type}
           onChange={handleChange}
         />
+        <label className="font-bold">Product Categories</label>
         <input
           name="categories"
           aria-label="Product Categories"
@@ -172,6 +176,7 @@ export default function ModifyProductPage() {
           value={form.categories}
           onChange={handleChange}
         />
+        <label className="font-bold">Product Images</label>
         <input
           name="images"
           aria-label="Product Images"
@@ -179,6 +184,7 @@ export default function ModifyProductPage() {
           value={form.images}
           onChange={handleChange}
         />
+        <label className="font-bold">Product Description</label>
         <textarea
           name="description"
           aria-label="Product Description"
@@ -186,6 +192,7 @@ export default function ModifyProductPage() {
           value={form.description}
           onChange={handleChange}
         />
+        <label className="font-bold">Product Price</label>
         <input
           name="price"
           aria-label="Product Price"
@@ -195,6 +202,7 @@ export default function ModifyProductPage() {
           value={form.price}
           onChange={handleChange}
         />
+        <label className="font-bold">Availability</label>
         <label>
           <input
             name="availability"
@@ -209,6 +217,7 @@ export default function ModifyProductPage() {
         {/* Conditionally rendered fields */}
         {form.type === "Keyboard" && (
           <>
+            <label className="font-bold">Switch Type</label>
             <input
               name="switchType"
               aria-label="Keyboard Switch Type"
@@ -216,6 +225,7 @@ export default function ModifyProductPage() {
               value={form.switchType}
               onChange={handleChange}
             />
+            <label className="font-bold">Keyboard Color</label>
             <input
               name="color"
               aria-label="Keyboard Color"
@@ -223,6 +233,7 @@ export default function ModifyProductPage() {
               value={form.color}
               onChange={handleChange}
             />
+            <label className="font-bold">Keyboard Layout</label>
             <input
               name="layout"
               aria-label="Keyboard Layout"
@@ -230,6 +241,7 @@ export default function ModifyProductPage() {
               value={form.layout}
               onChange={handleChange}
             />
+            <label className="font-bold">Backlight</label>
             <input
               name="backlight"
               aria-label="Keyboard Backlight"
@@ -242,6 +254,7 @@ export default function ModifyProductPage() {
 
         {form.type === "Keycap" && (
           <>
+            <label className="font-bold">Material</label>
             <input
               name="material"
               aria-label="Keycap Material"
@@ -249,6 +262,7 @@ export default function ModifyProductPage() {
               value={form.material}
               onChange={handleChange}
             />
+            <label className="font-bold">Profile</label>
             <input
               name="profile"
               aria-label="Keycap Profile"
@@ -256,6 +270,7 @@ export default function ModifyProductPage() {
               value={form.profile}
               onChange={handleChange}
             />
+            <label className="font-bold">Color</label>
             <input
               name="color"
               aria-label="Keycap Color"
@@ -263,6 +278,7 @@ export default function ModifyProductPage() {
               value={form.color}
               onChange={handleChange}
             />
+            <label className="font-bold">Compatibility</label>
             <input
               name="compatibility"
               aria-label="Keycap Compatibility"
@@ -275,6 +291,7 @@ export default function ModifyProductPage() {
 
         {form.type === "Switch" && (
           <>
+            <label className="font-bold">Switch Type</label>
             <input
               name="switchType"
               aria-label="Switch Type"
@@ -286,13 +303,13 @@ export default function ModifyProductPage() {
         )}
 
         {success && (
-          <div className="mb-4 text-(--success) font-semibold">
+          <div className="mb-4 text-(--success) text-center">
             Product updated successfully!
           </div>
         )}
 
         {error && (
-          <div className="mb-4 text-(--error) font-semibold">
+          <div className="mb-4 text-(--error) text-center">
             An error has occured while updating the product. Please try again.
           </div>
         )}

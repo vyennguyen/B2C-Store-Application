@@ -103,18 +103,26 @@ export async function PATCH(req: Request, context: { params: { id: string } }) {
   }
 }
 
-// Delete a product (DELETE)
-export async function DELETE(req: Request) {
+// DELETE /api/products/[id]
+export async function DELETE(
+  req: Request,
+  context: { params: { id: string } }
+) {
   try {
-    const body = await req.json();
+    const { id } = context.params;
+
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
+      return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
+    }
 
     await prisma.product.delete({
-      where: { id: body.id },
+      where: { id: parsedId },
     });
 
     return NextResponse.json({ message: "Product deleted" });
   } catch (error) {
-    console.error(error);
+    console.error("Failed to delete product:", error);
     return NextResponse.json({ error: "Delete failed" }, { status: 500 });
   }
 }

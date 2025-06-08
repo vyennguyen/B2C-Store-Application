@@ -130,7 +130,7 @@ export default function AddProductPage() {
       });
     } else {
       setError("Failed to add product. Please try again.");
-      console.error("Failed to add product");
+      console.error("Missing fields");
     }
   };
 
@@ -283,14 +283,14 @@ export default function AddProductPage() {
             />
             <label className="font-bold">Color</label>
             <input
-              name="keycapColor"
+              name="color"
               aria-label="Keycap Color"
               placeholder="Color"
               value={form.color}
               onChange={handleChange}
               className={inputClass}
             />
-            <label className="font-bold">Compalability</label>
+            <label className="font-bold">Compatibility</label>
             <input
               name="compatibility"
               aria-label="Keycap Compatibility"
@@ -317,7 +317,7 @@ export default function AddProductPage() {
         )}
 
         {success && (
-          <div className="mb-4 text-(--success)">
+          <div className="mb-4 text-(--success) text-center">
             Product added successfully!
           </div>
         )}
