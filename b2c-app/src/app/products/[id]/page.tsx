@@ -8,13 +8,11 @@ import { CiImageOff } from "react-icons/ci";
 export default async function ProductDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const { id } = await params;
-
   // Fetch product data from the API
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${id}`
+    `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${params.id}`
   );
 
   if (!res.ok) {

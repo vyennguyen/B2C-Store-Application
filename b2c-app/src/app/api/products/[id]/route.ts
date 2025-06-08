@@ -5,9 +5,9 @@ import prisma from "@/lib/prisma";
 // GET /api/products/[id]
 export async function GET(
   req: NextRequest,
-  context: { params: { id: string } }
+  { params }: { params: { id: string } }
 ) {
-  const { id } = context.params;
+  const { id } = params;
 
   const parsedId = parseInt(id, 10);
 
