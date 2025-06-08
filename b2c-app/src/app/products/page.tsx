@@ -1,6 +1,5 @@
 // Entry point for the product page
 
-import NavBar from "../components/NavBar";
 import LeftMenu from "../components/LeftMenu";
 import ProductPage from "../products/ProductPage";
 
