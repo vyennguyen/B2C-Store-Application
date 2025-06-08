@@ -1,6 +1,6 @@
 // Default routes for the application
 
-const routes = {
+const routes: Record<string, string> = {
   home: "/",
   about: "/about",
   contact: "/contact",

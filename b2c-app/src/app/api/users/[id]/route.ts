@@ -7,7 +7,7 @@ import { authOptions } from "@/lib/auth";
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
 
@@ -16,7 +16,7 @@ export async function DELETE(
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
 
-  const { id } = context.params;
+  const { id } = (await context.params);
   const parsedId = parseInt(id, 10);
 
   try {

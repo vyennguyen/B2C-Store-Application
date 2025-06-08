@@ -5,11 +5,12 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { CiImageOff } from "react-icons/ci";
 
-export default async function ProductDetailPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function ProductDetailPage(
+  props: {
+    params: Promise<{ id: string }>;
+  }
+) {
+  const params = await props.params;
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${params.id}`
   );
