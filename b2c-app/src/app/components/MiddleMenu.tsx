@@ -1,14 +1,13 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import routes from "@/app/api/route";
 
 // Normal user routes
 const userCategories = [
-  { name: "Shop", path: routes.products },
-  { name: "Philosophy", path: routes.philosophy },
-  { name: "About Us", path: routes.about },
-  { name: "Contact", path: routes.contact },
+  { name: "Shop", path: "/products" },
+  { name: "Philosophy", path: "/philosophy" },
+  { name: "About Us", path: "/about" },
+  { name: "Contact", path: "/contact" },
 ];
 
 // Admin routes
