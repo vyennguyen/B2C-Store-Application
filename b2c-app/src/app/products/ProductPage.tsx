@@ -26,7 +26,12 @@ export default async function ProductPage() {
 
   return (
     <div className="min-h-screen p-5">
-      <h1 className="text-xl font-bold mb-5">All Keyboards</h1>
+      <h1 className="text-xl font-bold mb-5">
+        All Products{" "}
+        <span className="text-md text-(--medium-gray)">
+          ({products.length})
+        </span>
+      </h1>
       <div className="flex flex-wrap gap-4 justify-center">
         {products.map((product) => (
           <ProductCard

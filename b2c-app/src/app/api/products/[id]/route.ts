@@ -43,15 +43,17 @@ export async function GET(
 // api/products/[id]
 export async function PATCH(req: Request, context: { params: { id: string } }) {
   try {
-    const id = parseInt(context.params.id, 10);
-    if (isNaN(id)) {
+    const { id } = context.params;
+
+    const parsedId = parseInt(id, 10);
+    if (isNaN(parsedId)) {
       return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
 
     const body = await req.json();
 
     const updated = await prisma.product.update({
-      where: { id },
+      where: { id: parsedId },
       data: {
         name: body.name,
         type: body.type,
