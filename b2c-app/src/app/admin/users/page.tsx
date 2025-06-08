@@ -1,8 +1,16 @@
+// User management page for admins
+// Add new admin users and manage existing users
+
 "use client";
 
 import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faExclamation } from "@fortawesome/free-solid-svg-icons";
+import {
+  faExclamation,
+  faUserPlus,
+  faEye,
+  faEyeSlash,
+} from "@fortawesome/free-solid-svg-icons";
 
 type User = {
   id: string;
@@ -25,11 +33,15 @@ export default function UserManagement() {
   }>({});
   const [success, setSuccess] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [type, setType] = useState("password");
+  const [icon, setIcon] = useState(faEyeSlash);
 
+  // Fetch users on initial load
   useEffect(() => {
     fetchUsers();
   }, []);
 
+  // Add user success message timeout
   useEffect(() => {
     if (success) {
       const timer = setTimeout(() => setSuccess(null), 3000);
@@ -37,6 +49,13 @@ export default function UserManagement() {
     }
   }, [success]);
 
+  // Toggle password visibility
+  const handlePasswordToggle = () => {
+    setType((prev) => (prev === "password" ? "text" : "password"));
+    setIcon((prev) => (prev === faEyeSlash ? faEye : faEyeSlash));
+  };
+
+  // Fetch all users
   async function fetchUsers() {
     setLoading(true);
     setError(null);
@@ -51,6 +70,7 @@ export default function UserManagement() {
     setLoading(false);
   }
 
+  // Add new admin user
   async function handleAddAdmin(e: React.FormEvent) {
     e.preventDefault();
     setError(null);
@@ -93,6 +113,7 @@ export default function UserManagement() {
     }
   }
 
+  // Delete user by id
   async function handleDeleteUser(userId: string) {
     if (!confirm("Are you sure you want to delete this user?")) return;
 
@@ -108,7 +129,7 @@ export default function UserManagement() {
     }
   }
 
-  // FILTER USERS based on search term:
+  // Filter users based on search term
   const filteredUsers = users.filter(({ id, name, email, role }) => {
     const lowerSearch = searchTerm.toLowerCase();
     return (
@@ -123,8 +144,52 @@ export default function UserManagement() {
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">User Management</h1>
 
-      <form onSubmit={handleAddAdmin} className="mb-6">
-        <h2 className="text-xl font-semibold mb-3">Add Admin User</h2>
+      {/* USer Management */}
+      <h2 className="text-xl font-semibold mb-4">All Users</h2>
+      {loading && <p className="m-2">Loading users...</p>}
+      <input
+        type="text"
+        placeholder="Search by ID, Name, or Email"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        className="border p-2 rounded-lg w-full mb-4"
+      />
+
+      <table className="w-full border-collapse border border-gray-300 mb-10">
+        <thead>
+          <tr>
+            <th className="border border-gray-300 p-2 text-center">ID</th>
+            <th className="border border-gray-300 p-2 text-center">Name</th>
+            <th className="border border-gray-300 p-2 text-center">Email</th>
+            <th className="border border-gray-300 p-2 text-center">Role</th>
+            <th className="border border-gray-300 p-2 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredUsers.map(({ id, name, email, role }) => (
+            <tr key={id}>
+              <td className="border border-gray-300 p-2 text-center">{id}</td>
+              <td className="border border-gray-300 p-2 text-center">{name}</td>
+              <td className="border border-gray-300 p-2 text-center">
+                {email}
+              </td>
+              <td className="border border-gray-300 p-2 text-center">{role}</td>
+              <td className="border border-gray-300 p-2 text-center">
+                <button
+                  onClick={() => handleDeleteUser(id)}
+                  className="text-white bg-(--error) rounded-lg font-bold hover:bg-(--e-hover) py-1 px-2 cursor-pointer"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Add Admin User Form */}
+      <h2 className="text-xl font-semibold mb-3">Add Admin User</h2>
+      <form onSubmit={handleAddAdmin} className="mb-6 w-[50%] mx-auto">
         <label className="block mb-2">
           Admin Name
           <input
@@ -171,10 +236,10 @@ export default function UserManagement() {
           )}
         </label>
 
-        <label className="block mb-2">
+        <label className="block mb-2 relative">
           Admin Password
           <input
-            type="password"
+            type={type}
             placeholder="Password"
             value={password}
             autoComplete="off"
@@ -182,8 +247,16 @@ export default function UserManagement() {
               setPassword(e.target.value);
               setFieldErrors((prev) => ({ ...prev, password: undefined }));
             }}
-            className="border p-2 rounded-lg w-full mb-2"
+            className="border p-2 rounded-lg w-full mb-2 pr-10"
           />
+          <button
+            type="button"
+            onClick={handlePasswordToggle}
+            className="absolute right-3 top-11.5 transform -translate-y-1/2 text-gray-600"
+            aria-label={type === "password" ? "Show password" : "Hide password"}
+          >
+            <FontAwesomeIcon icon={icon} />
+          </button>
           {fieldErrors.password && (
             <p className="text-(--error) mb-2 flex items-center gap-1">
               <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-(--error) text-white">
@@ -213,55 +286,12 @@ export default function UserManagement() {
 
             {/* Button Text */}
             <span className="group-hover:text-white relative z-10 text-lg font-semibold">
+              <FontAwesomeIcon icon={faUserPlus} className="mr-2" />
               Add New Admin
             </span>
           </button>
         </div>
       </form>
-
-      <h2 className="text-xl font-semibold mb-4">All Users</h2>
-
-      {loading && <p className="m-2">Loading users...</p>}
-
-      <input
-        type="text"
-        placeholder="Search by ID, Name, or Email"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="border p-2 rounded-lg w-full mb-4"
-      />
-
-      <table className="w-full border-collapse border border-gray-300 mb-10">
-        <thead>
-          <tr>
-            <th className="border border-gray-300 p-2 text-center">ID</th>
-            <th className="border border-gray-300 p-2 text-center">Name</th>
-            <th className="border border-gray-300 p-2 text-center">Email</th>
-            <th className="border border-gray-300 p-2 text-center">Role</th>
-            <th className="border border-gray-300 p-2 text-center">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredUsers.map(({ id, name, email, role }) => (
-            <tr key={id}>
-              <td className="border border-gray-300 p-2 text-center">{id}</td>
-              <td className="border border-gray-300 p-2 text-center">{name}</td>
-              <td className="border border-gray-300 p-2 text-center">
-                {email}
-              </td>
-              <td className="border border-gray-300 p-2 text-center">{role}</td>
-              <td className="border border-gray-300 p-2 text-center">
-                <button
-                  onClick={() => handleDeleteUser(id)}
-                  className="text-white bg-(--error) rounded-full font-bold hover:bg-(--e-hover) py-1 px-2 cursor-pointer"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
     </div>
   );
 }
