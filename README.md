@@ -23,6 +23,17 @@ A full-stack B2C (Business-to-Consumer) e-commerce web application for managing 
 - [NextAuth.js](https://next-auth.js.org/) (for authentication)
 - [React Icons](https://react-icons.github.io/react-icons/) (for UI icons)
 
+## Log in credentials
+
+- Admin 1 email: adminaccount@gmail.com
+- Admin 1 password: b2cadmin
+
+- Admin 2 email: admintestaccount@gmail.com
+- Admin 2 password: b2ctestaccount
+
+- User 1 email: testaccount123@gmail.com
+- User 1 password: accounttesting1234
+
 ## Getting Started
 
 ### Prerequisites
