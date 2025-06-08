@@ -1,0 +1,80 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Base Product model
+model Product {
+  id            Int       @id @default(autoincrement())
+  name          String
+  type          ProductType
+  categories    String[]
+  images        String[]
+  description   String
+  price         Float
+  availability  Boolean
+  ratingValue   Float     @default(0)
+  ratingCount   Int       @default(0)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  keyboard      Keyboard? 
+  keycap        Keycap? 
+  switch        Switch?   
+}
+
+enum ProductType {
+  Keyboard
+  Keycap
+  Switch
+}
+
+model Keyboard {
+  productId   Int     @id
+  switchType  String[]
+  color       String[]
+  layout      String
+  backlight   String
+  Product     Product @relation(fields: [productId], references: [id])
+}
+
+model Keycap {
+  productId   Int     @id
+  material    String
+  profile     String
+  color       String[]
+  compatibility String[]
+  Product     Product @relation(fields: [productId], references: [id])
+}
+
+model Switch {
+  productId       Int     @id
+  type            String  
+  Product         Product @relation(fields: [productId], references: [id])
+}
+
+model User {
+  id             Int      @id @default(autoincrement())
+  email          String   @unique
+  password       String
+  name           String
+  role           Role     @default(USER)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
+}
