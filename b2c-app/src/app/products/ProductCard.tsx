@@ -111,7 +111,7 @@ export default function ProductCard({
       {/* Admin-only controls */}
       {isAdmin && (
         <div className="flex justify-between gap-2 p-2 bg-(--background) text-white z-20 relative">
-          <Link href={`/admin/products/modify/${id}`}>
+          <Link href={`/admin/products/modify-product/${id}`}>
             <button
               className="font-bold border border-white rounded-lg px-3 py-1 text-sm hover:bg-(--background-hover) cursor-pointer"
               disabled={loading}
@@ -121,7 +121,7 @@ export default function ProductCard({
           </Link>
           <button
             onClick={handleDelete}
-            className=" font-bold text-white bg-(--error) rounded px-3 py-1 text-sm hover:bg(--e-hover) cursor-pointer"
+            className=" font-bold text-white bg-(--error) rounded px-3 py-1 text-sm hover:bg-(--e-hover) cursor-pointer"
             disabled={loading}
           >
             {loading ? "Deleting..." : "Delete"}

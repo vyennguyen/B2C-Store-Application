@@ -56,7 +56,7 @@ export default function RegistrationForm() {
         }, 1200);
       }
     } catch (error) {
-      setError("An unexpected error occurred");
+      setError("Error: An unexpected error occurred");
     } finally {
       setLoading(false);
     }
@@ -181,8 +181,6 @@ export default function RegistrationForm() {
       {success && (
         <p className="mt-4 text-center text-(--success)">{success}</p>
       )}
-
-      <p className="mt-4 text-center font-bold text-(--success)">success</p>
     </form>
   );
 }

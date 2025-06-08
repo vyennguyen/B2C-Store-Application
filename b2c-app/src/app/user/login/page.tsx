@@ -107,6 +107,7 @@ export default function LoginForm() {
       <div className="flex justify-center">
         <button
           type="submit"
+          name="Log in"
           className="relative px-6 py-2 rounded-full overflow-hidden text-(--background) bg-(--foreground) cursor-pointer group"
           disabled={loading}
         >

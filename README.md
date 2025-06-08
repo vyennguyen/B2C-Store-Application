@@ -6,10 +6,11 @@ A full-stack B2C (Business-to-Consumer) e-commerce web application for managing 
 
 - Product listing, detail, add, and modify pages
 - Category and type filtering
-- User authentication (login)
+- User authentication (login & registration)
 - Prisma ORM with a PostgreSQL (or other) database
 - API routes for CRUD operations
 - Responsive UI built with Next.js and Tailwind CSS
+- Admin dashboard for product/user management
 
 ## Tech Stack
 
@@ -84,7 +85,10 @@ b2c-app/
   │   │   ├─ api/
   │   │   │   ├─ products/route.ts
   │   │   │   ├─ products/[id]/route.ts
-  │   │   │   └─ auth/login/route.tsx
+  │   │   │   ├─ users/[id]/route.ts
+  │   │   │   ├─ auth/login/route.ts
+  │   │   │   ├─ auth/register/route.ts
+  │   │   │   └─ auth/[...nextauth]/route.ts
   │   ├─ lib/
   │   │   └─ prisma.ts
   ├─ prisma/
@@ -94,6 +98,78 @@ b2c-app/
   ├─ next.config.ts
   └─ README.md
 ```
+
+## API Endpoints
+
+### Product Endpoints
+
+- `GET /api/products`  
+  List all products.
+
+- `POST /api/products`  
+  Create a new product.  
+  **Body:**
+
+  ```json
+  {
+    "name": "string",
+    "type": "Keyboard|Keycap|Switch",
+    "categories": ["string"],
+    "images": ["string"],
+    "description": "string",
+    "price": number,
+    "availability": boolean,
+    // Nested: keyboard, keycap, switch (see schema)
+  }
+  ```
+
+- `GET /api/products/[id]`  
+  Get a product by ID.
+
+- `PATCH /api/products/[id]`  
+  Update a product by ID.
+
+- `DELETE /api/products/[id]`  
+  Delete a product by ID.
+
+### User Endpoints
+
+- `GET /api/users/[id]`  
+  Get user details (admin only).
+
+- `DELETE /api/users/[id]`  
+  Delete a user (admin only).
+
+### Auth Endpoints
+
+- `POST /api/auth/register`  
+  Register a new user.  
+  **Body:**
+
+  ```json
+  {
+    "name": "string",
+    "email": "string",
+    "password": "string"
+  }
+  ```
+
+- `POST /api/auth/login`  
+  Login a user.  
+  **Body:**
+
+  ```json
+  {
+    "email": "string",
+    "password": "string"
+  }
+  ```
+
+- `GET /api/auth/session`  
+  Get the current session (NextAuth).
+
+- `POST /api/auth/[...nextauth]`  
+  NextAuth.js authentication handler (do not call directly).
 
 ## Scripts
 
@@ -108,11 +184,3 @@ b2c-app/
 - `DATABASE_URL` - Your database connection string
 - `NEXTAUTH_SECRET` - Secret for NextAuth.js
 - `NEXT_PUBLIC_BASE_URL` - Base URL for API requests
-
-## License
-
-MIT
-
----
-
-**Feel free to customize this README for your team or deployment!**
