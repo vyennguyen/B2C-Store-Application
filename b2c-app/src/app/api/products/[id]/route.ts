@@ -3,10 +3,8 @@ import prisma from "@/lib/prisma";
 
 // Fetch a product by id
 // GET /api/products/[id]
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const { id } = params;
 
   const parsedId = parseInt(id, 10);
@@ -41,9 +39,9 @@ export async function GET(
 
 // Modify a product by id
 // api/products/[id]
-export async function PATCH(req: Request, context: { params: { id: string } }) {
+export async function PATCH(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
-    const { id } = context.params;
+    const { id } = (await context.params);
 
     const parsedId = parseInt(id, 10);
     if (isNaN(parsedId)) {
@@ -106,10 +104,10 @@ export async function PATCH(req: Request, context: { params: { id: string } }) {
 // DELETE /api/products/[id]
 export async function DELETE(
   req: Request,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = context.params;
+    const { id } = (await context.params);
 
     const parsedId = parseInt(id, 10);
     if (isNaN(parsedId)) {
