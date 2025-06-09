@@ -74,7 +74,7 @@ export default function RightMenu() {
 
         {isLoggedIn && (
           <Link
-            href="/account"
+            href="/admin/account"
             className="flex items-center gap-2 cursor-pointer"
           >
             <FontAwesomeIcon icon={faUser} />
