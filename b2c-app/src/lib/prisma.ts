@@ -1,6 +1,6 @@
 // Centralized prisma client file
 
-import { PrismaClient } from "../generated/prisma";
+import { PrismaClient } from "@/generated/prisma";
 
 const prisma = new PrismaClient();
 
