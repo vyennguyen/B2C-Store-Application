@@ -5,11 +5,9 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import { CiImageOff } from "react-icons/ci";
 
-export default async function ProductDetailPage(
-  props: {
-    params: Promise<{ id: string }>;
-  }
-) {
+export default async function ProductDetailPage(props: {
+  params: Promise<{ id: string }>;
+}) {
   const params = await props.params;
   // Fetch product data from the API
   const res = await fetch(
@@ -116,12 +114,6 @@ export default async function ProductDetailPage(
                   {Array.isArray(product.switch.type)
                     ? product.switch.type.join(", ")
                     : product.switch.type}
-                </div>
-                <div>
-                  Color:{" "}
-                  {Array.isArray(product.switch.color)
-                    ? product.switch.color.join(", ")
-                    : product.switch.color}
                 </div>
               </div>
             </div>

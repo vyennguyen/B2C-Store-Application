@@ -186,7 +186,7 @@ export default function AddProductPage() {
           onChange={handleChange}
           className={inputClass}
         />
-        <label className="font-bold">Product Desscription</label>
+        <label className="font-bold">Product Description</label>
         <textarea
           name="description"
           aria-label="Product Description"
