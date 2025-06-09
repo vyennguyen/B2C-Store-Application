@@ -127,7 +127,10 @@ export default function ModifyProductPage() {
       };
     } else if (form.type === "Switch") {
       payload.switch = {
-        type: form.switchType.split(",").map((st) => st.trim()),
+        type: form.switchType
+          .split(",")
+          .map((st) => st.trim())
+          .join(", "),
       };
     }
 
