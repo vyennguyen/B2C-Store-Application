@@ -1,18 +1,22 @@
-// Entry point for the product page
-
 import LeftMenu from "../components/LeftMenu";
 import ProductPage from "../products/ProductPage";
 
-export default function ProductsPage() {
+interface Props {
+  searchParams?: {
+    search?: string;
+  };
+}
+
+export default async function ProductsPage({ searchParams }: Props) {
   return (
     <>
-      {/* Main content for the product page */}
       <div className="flex min-h-screen">
         <div className="w-[25%]">
           <LeftMenu />
         </div>
         <div className="w-[75%] overflow-auto">
-          <ProductPage />
+          {/* Pass searchParams down to ProductPage */}
+          <ProductPage searchParams={searchParams} />
         </div>
       </div>
     </>

@@ -5,9 +5,29 @@ import prisma from "@/lib/prisma";
 
 // Get all products
 // GET /api/products
-export async function GET() {
+// Support search products
+export async function GET(request: Request) {
   try {
-    const products = await prisma.product.findMany();
+    const { searchParams } = new URL(request.url);
+    const searchQuery = searchParams.get("search") || "";
+
+    const where = searchQuery
+      ? {
+          OR: [
+            { name: { contains: searchQuery, mode: "insensitive" as const } },
+            {
+              description: {
+                contains: searchQuery,
+                mode: "insensitive" as const,
+              },
+            },
+            { categories: { has: searchQuery } },
+          ],
+        }
+      : {};
+
+    const products = await prisma.product.findMany({ where });
+
     return NextResponse.json(products);
   } catch (error) {
     console.error(error);

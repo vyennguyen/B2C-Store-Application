@@ -10,8 +10,9 @@ function SearchBar() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (query.trim()) {
-      router.push(`/products?search=${encodeURIComponent(query)}`);
+    const trimmed = query.trim();
+    if (trimmed) {
+      router.push(`/products?search=${encodeURIComponent(trimmed)}`);
     } else {
       router.push("/products");
     }
@@ -31,7 +32,7 @@ function SearchBar() {
       />
       <button
         type="submit"
-        className=" text-gray-500 hover:text-(--text-light)"
+        className="text-gray-500 hover:text-(--text-light)"
         aria-label="Search"
       >
         <FontAwesomeIcon icon={faMagnifyingGlass} />

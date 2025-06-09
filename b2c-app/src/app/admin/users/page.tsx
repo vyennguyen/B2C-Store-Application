@@ -144,7 +144,7 @@ export default function UserManagement() {
     <div className="max-w-3xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6 text-center">User Management</h1>
 
-      {/* USer Management */}
+      {/* User Management */}
       <h2 className="text-xl font-semibold mb-4">All Users</h2>
       {loading && <p className="m-2">Loading users...</p>}
       <input
