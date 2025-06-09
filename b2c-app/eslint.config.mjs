@@ -13,8 +13,8 @@ const compat = new FlatCompat({
 export default defineConfig({
   ignores: [
     ...globalIgnores,
-    "generated/**", // Ignore all files in /generated
-    "prisma/generated/**", // If your generated folder is inside prisma/
+    // "generated/**", // Ignore all files in /generated
+    // "prisma/generated/**", // If your generated folder is inside prisma/
   ],
   ...compat.extends("next/core-web-vitals", "next/typescript"),
 });
