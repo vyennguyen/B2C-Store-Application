@@ -18,7 +18,7 @@ importers:
         specifier: ^0.2.2
         version: 0.2.2(@fortawesome/fontawesome-svg-core@6.7.2)(react@19.1.0)
       '@prisma/client':
-        specifier: ^6.8.2
+        specifier: ^6.9.0
         version: 6.9.0(prisma@6.9.0(typescript@5.8.3))(typescript@5.8.3)
       bcryptjs:
         specifier: ^3.0.2
@@ -100,7 +100,7 @@ importers:
         specifier: ^30.0.0-beta.3
         version: 30.0.0-beta.3
       prisma:
-        specifier: ^6.8.2
+        specifier: ^6.9.0
         version: 6.9.0(typescript@5.8.3)
       tailwindcss:
         specifier: ^4
