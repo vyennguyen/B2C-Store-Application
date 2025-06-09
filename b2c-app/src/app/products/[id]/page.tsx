@@ -38,13 +38,13 @@ export default async function ProductDetailPage(props: {
         )}
       </div>
       <div className="ml-4 flex-1">
-        {" "}
         <h1 className="text-3xl font-bold">{product.name}</h1>
-        <p className="text-gray-700">{product.description}</p>
+        <p className="text-(--background)">{product.description}</p>
+        <p className="text-(--medium-gray) mt-2">SKU: {product.id}</p>
         <p className="text-xl text-blue-600 font-semibold mt-2">
-          ${product.price.toFixed(2)}
+          Price: ${product.price.toFixed(2)}
         </p>
-        <div className="mt-4 space-y-1">
+        <div className="mt-4">
           <div>
             <b>Type:</b> {product.type}
           </div>
@@ -58,66 +58,68 @@ export default async function ProductDetailPage(props: {
             <b>Availability:</b>{" "}
             {product.availability ? "Available" : "Unavailable"}
           </div>
-          <div>
-            <b>Rating:</b> {product.ratingValue ?? 0} (
-            {product.ratingCount ?? 0} reviews)
-          </div>
 
           {product.keyboard && (
             <div>
-              <b>Keyboard:</b>
-              <div className="ml-4">
-                <div>
-                  Switch Type:{" "}
-                  {Array.isArray(product.keyboard.switchType)
-                    ? product.keyboard.switchType.join(", ")
-                    : product.keyboard.switchType}
-                </div>
-                <div>
-                  Color:{" "}
-                  {Array.isArray(product.keyboard.color)
-                    ? product.keyboard.color.join(", ")
-                    : product.keyboard.color}
-                </div>
-                <div>Layout: {product.keyboard.layout}</div>
-                <div>Backlight: {product.keyboard.backlight}</div>
+              <div>
+                <b>Switch Type: </b>
+                {Array.isArray(product.keyboard.switchType)
+                  ? product.keyboard.switchType.join(", ")
+                  : product.keyboard.switchType}
+              </div>
+              <div>
+                <b>Color: </b>
+                {Array.isArray(product.keyboard.color)
+                  ? product.keyboard.color.join(", ")
+                  : product.keyboard.color}
+              </div>
+              <div>
+                <b>Layout: </b> {product.keyboard.layout}
+              </div>
+              <div>
+                <b>Backlight: </b> {product.keyboard.backlight}
               </div>
             </div>
           )}
           {product.keycap && (
             <div>
-              <b>Keycap:</b>
-              <div className="ml-4">
-                <div>Material: {product.keycap.material}</div>
-                <div>Profile: {product.keycap.profile}</div>
-                <div>
-                  Color:{" "}
-                  {Array.isArray(product.keycap.color)
-                    ? product.keycap.color.join(", ")
-                    : product.keycap.color}
-                </div>
-                <div>
-                  Compatibility:{" "}
-                  {Array.isArray(product.keycap.compatibility)
-                    ? product.keycap.compatibility.join(", ")
-                    : product.keycap.compatibility}
-                </div>
+              <div>
+                <b>Material: </b> {product.keycap.material}
+              </div>
+              <div>
+                <b>Profile: </b> {product.keycap.profile}
+              </div>
+              <div>
+                <b>Color: </b>
+                {Array.isArray(product.keycap.color)
+                  ? product.keycap.color.join(", ")
+                  : product.keycap.color}
+              </div>
+              <div>
+                <b>Compatibility: </b>
+                {Array.isArray(product.keycap.compatibility)
+                  ? product.keycap.compatibility.join(", ")
+                  : product.keycap.compatibility}
               </div>
             </div>
           )}
           {product.switch && (
             <div>
-              <b>Switch:</b>
-              <div className="ml-4">
-                <div>
-                  Type:{" "}
-                  {Array.isArray(product.switch.type)
-                    ? product.switch.type.join(", ")
-                    : product.switch.type}
-                </div>
+              <div>
+                <b>Switch Type: </b>
+                {Array.isArray(product.switch.type)
+                  ? product.switch.type.join(", ")
+                  : product.switch.type}
               </div>
             </div>
           )}
+          <div>
+            <b>Rating:</b> {product.ratingValue ?? 0} (
+            {product.ratingCount ?? 0} reviews)
+          </div>
+          <button className="mt-4 bg-(--background) text-white px-4 py-2 rounded-lg hover:bg-(--background-hover) transition-colors cursor-pointer">
+            Add to Cart
+          </button>
         </div>
       </div>
     </div>

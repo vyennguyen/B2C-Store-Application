@@ -7,7 +7,7 @@ import { validateProductForm } from "../../../functions/validateProducts";
 
 export default function AddProductPage() {
   const [success, setSuccess] = useState<boolean | null>(null);
-  const inputClass = "border border-gray-300 rounded px-2 py-2"; // Shared style for input
+  const inputClass = "border border-(--background) rounded px-2 py-2"; // Shared style for input
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     name: "",
@@ -184,7 +184,7 @@ export default function AddProductPage() {
           placeholder="Image URLs (comma separated)"
           value={form.images}
           onChange={handleChange}
-          className={inputClass}
+          className="overflow-hidden resize-none border border-(--background) rounded px-2 py-2"
         />
         <label className="font-bold">Product Description</label>
         <textarea

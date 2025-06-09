@@ -49,7 +49,7 @@ export default function ProductCard({
         throw new Error(data.error || "Failed to delete product");
       }
 
-      if (onDeleted) onDeleted(); // Refresh list
+      if (onDeleted) onDeleted();
     } catch (err: any) {
       setError(err.message);
     } finally {

@@ -7,6 +7,7 @@ export default function ModifyProductPage() {
   const params = useParams();
   const router = useRouter();
   const id = params?.id;
+  const inputStyle = "border rounded p-2";
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -162,6 +163,7 @@ export default function ModifyProductPage() {
           placeholder="Product Name"
           value={form.name}
           onChange={handleChange}
+          className={inputStyle}
         />
         <label className="font-bold">Product Type</label>
         <input
@@ -170,6 +172,7 @@ export default function ModifyProductPage() {
           placeholder="Product Type"
           value={form.type}
           onChange={handleChange}
+          className={inputStyle}
         />
         <label className="font-bold">Product Categories</label>
         <input
@@ -178,6 +181,7 @@ export default function ModifyProductPage() {
           placeholder="Categories (comma separated)"
           value={form.categories}
           onChange={handleChange}
+          className={inputStyle}
         />
         <label className="font-bold">Product Images</label>
         <input
@@ -186,6 +190,7 @@ export default function ModifyProductPage() {
           placeholder="Image URLs (comma separated)"
           value={form.images}
           onChange={handleChange}
+          className={inputStyle}
         />
         <label className="font-bold">Product Description</label>
         <textarea
@@ -194,6 +199,7 @@ export default function ModifyProductPage() {
           placeholder="Description"
           value={form.description}
           onChange={handleChange}
+          className="overflow-hidden resize-none border border-(--background) rounded px-2 py-2"
         />
         <label className="font-bold">Product Price</label>
         <input
@@ -204,6 +210,7 @@ export default function ModifyProductPage() {
           placeholder="Price"
           value={form.price}
           onChange={handleChange}
+          className={inputStyle}
         />
         <label className="font-bold">Availability</label>
         <label>
@@ -213,6 +220,7 @@ export default function ModifyProductPage() {
             type="checkbox"
             checked={form.availability}
             onChange={handleChange}
+            className={inputStyle}
           />{" "}
           In Stock
         </label>
@@ -227,6 +235,7 @@ export default function ModifyProductPage() {
               placeholder="Switch Type"
               value={form.switchType}
               onChange={handleChange}
+              className={inputStyle}
             />
             <label className="font-bold">Keyboard Color</label>
             <input
@@ -235,6 +244,7 @@ export default function ModifyProductPage() {
               placeholder="Color"
               value={form.color}
               onChange={handleChange}
+              className={inputStyle}
             />
             <label className="font-bold">Keyboard Layout</label>
             <input
@@ -251,6 +261,7 @@ export default function ModifyProductPage() {
               placeholder="Backlight"
               value={form.backlight}
               onChange={handleChange}
+              className={inputStyle}
             />
           </>
         )}
@@ -264,6 +275,7 @@ export default function ModifyProductPage() {
               placeholder="Material"
               value={form.material}
               onChange={handleChange}
+              className={inputStyle}
             />
             <label className="font-bold">Profile</label>
             <input
@@ -272,6 +284,7 @@ export default function ModifyProductPage() {
               placeholder="Profile"
               value={form.profile}
               onChange={handleChange}
+              className={inputStyle}
             />
             <label className="font-bold">Color</label>
             <input
@@ -280,6 +293,7 @@ export default function ModifyProductPage() {
               placeholder="Color"
               value={form.color}
               onChange={handleChange}
+              className={inputStyle}
             />
             <label className="font-bold">Compatibility</label>
             <input
@@ -288,6 +302,7 @@ export default function ModifyProductPage() {
               placeholder="Compatibility"
               value={form.compatibility}
               onChange={handleChange}
+              className={inputStyle}
             />
           </>
         )}
@@ -301,6 +316,7 @@ export default function ModifyProductPage() {
               placeholder="Type"
               value={form.switchType}
               onChange={handleChange}
+              className={inputStyle}
             />
           </>
         )}

@@ -46,7 +46,7 @@ model Keyboard {
   color       String[]
   layout      String
   backlight   String
-  Product     Product @relation(fields: [productId], references: [id])
+  Product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Keycap {
@@ -55,13 +55,13 @@ model Keycap {
   profile     String
   color       String[]
   compatibility String[]
-  Product     Product @relation(fields: [productId], references: [id])
+  Product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model Switch {
   productId       Int     @id
   type            String  
-  Product         Product @relation(fields: [productId], references: [id])
+  Product         Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
 model User {
